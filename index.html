@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AnesShop — Comptes, outils et abonnements premium</title>
+<meta name="description" content="AnesShop — votre destination numéro un pour les comptes, outils et abonnements premium. Support Discord 24/7." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%234f8ef7'/><text x='50' y='65' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>A</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#080810;
+  --bg-2:#0f0f1a;
+  --bg-3:#1a1a2e;
+  --bg-deep:#050508;
+  --text:#ffffff;
+  --text-dim:#a8a8b8;
+  --accent:#4f8ef7;
+  --accent-2:#7c3aed;
+  --border:rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.14);
+  --glass:rgba(255,255,255,0.05);
+  --radius:12px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.55;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;letter-spacing:-0.025em;line-height:1.15}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{max-width:100%;display:block}
+input{font-family:inherit;color:inherit}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#0a0a14}
+::-webkit-scrollbar-thumb{background:rgba(79,142,247,.25);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(79,142,247,.45)}
+
+/* Animated bg canvas */
+#bgCanvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+}
+
+/* Layout helpers */
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* Navbar */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,16,.75);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1280px;margin:0 auto}
+.brand{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.03em;background:linear-gradient(120deg,#fff 60%,#4f8ef7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:15px;color:var(--text-dim);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.cart-btn{
+  position:relative;width:42px;height:42px;border-radius:50%;
+  background:var(--glass);border:1px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  transition:all .2s;
+}
+.cart-btn:hover{background:rgba(79,142,247,.15);border-color:var(--accent)}
+.cart-badge{
+  position:absolute;top:-4px;right:-4px;
+  background:#ef4444;color:white;font-size:11px;font-weight:700;
+  min-width:20px;height:20px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;padding:0 5px;
+  border:2px solid var(--bg);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.cart-badge.pulse{animation:badge-pulse .5s ease}
+@keyframes badge-pulse{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.4)}
+  100%{transform:scale(1)}
+}
+.hamburger{display:none;width:42px;height:42px;border-radius:50%;background:var(--glass);border:1px solid var(--border-strong);font-size:20px;align-items:center;justify-content:center}
+
+/* Hero */
+.hero{
+  min-height:92vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;position:relative;
+}
+.hero-inner{max-width:880px;position:relative;z-index:1}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:100px;
+  background:rgba(79,142,247,.10);border:1px solid rgba(79,142,247,.25);
+  font-size:13px;color:var(--accent);font-weight:500;margin-bottom:28px;
+}
+.hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent);animation:dot-pulse 1.5s infinite}
+@keyframes dot-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-size:clamp(36px,6vw,64px);
+  margin-bottom:24px;
+  background:linear-gradient(180deg,#fff 50%,#a8b8d4);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{font-size:clamp(16px,1.6vw,19px);color:var(--text-dim);max-width:620px;margin:0 auto 40px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 26px;border-radius:var(--radius);font-weight:600;font-size:15px;
+  transition:all .2s ease;border:1px solid transparent;
+}
+.btn-primary{background:#fff;color:#000}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,255,255,.18)}
+.btn-outline{background:transparent;border-color:rgba(255,255,255,.25);color:#fff}
+.btn-outline:hover{background:rgba(255,255,255,.06);border-color:#fff}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:#3a7ce0;box-shadow:0 12px 30px rgba(79,142,247,.35)}
+.btn-block{width:100%}
+
+/* Sections */
+section{position:relative;z-index:1;padding:80px 0}
+.section-head{text-align:center;margin-bottom:54px}
+.section-head h2{font-size:clamp(28px,3.6vw,42px);margin-bottom:14px}
+.section-head p{color:var(--text-dim);max-width:620px;margin:0 auto}
+
+/* Feature cards */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature-card{
+  padding:32px 28px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  border:1px solid var(--border);
+  transition:all .25s;
+}
+.feature-card:hover{border-color:rgba(79,142,247,.4);transform:translateY(-4px)}
+.feature-icon{
+  width:56px;height:56px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(79,142,247,.18),rgba(124,58,237,.18));
+  border:1px solid rgba(79,142,247,.22);
+  display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;
+}
+.feature-card h3{font-size:20px;margin-bottom:10px}
+.feature-card p{color:var(--text-dim);font-size:15px}
+
+/* Filters */
+.filters-bar{
+  background:var(--glass);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:24px;margin-bottom:36px;
+}
+.filter-row{margin-bottom:18px}
+.filter-row:last-child{margin-bottom:0}
+.filter-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;
+}
+.search-wrap{position:relative}
+.search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
+.search-input{
+  width:100%;background:rgba(0,0,0,.25);
+  border:1px solid var(--border);
+  padding:14px 18px 14px 46px;border-radius:12px;
+  color:var(--text);font-size:15px;outline:none;transition:all .2s;
+}
+.search-input::placeholder{color:rgba(255,255,255,.35)}
+.search-input:focus{border-color:var(--accent);background:rgba(0,0,0,.4);box-shadow:0 0 0 4px rgba(79,142,247,.12)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{
+  padding:8px 16px;border-radius:100px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  font-size:13px;color:var(--text-dim);font-weight:500;
+  transition:all .2s;
+}
+.pill:hover{color:#fff;border-color:var(--border-strong)}
+.pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Products grid */
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.product-card{
+  background:linear-gradient(180deg,#11111c,#0c0c14);
+  border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  transition:all .3s ease;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.product-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(79,142,247,.45);
+  box-shadow:0 20px 50px -10px rgba(79,142,247,.25);
+}
+.product-banner{
+  position:relative;aspect-ratio:16/9;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:20px;
+}
+.product-banner::before,
+.product-banner::after{
+  content:'';position:absolute;width:120px;height:120px;border-radius:50%;
+  filter:blur(40px);opacity:.45;pointer-events:none;
+}
+.product-banner::before{background:#4f8ef7;top:-30px;left:-30px}
+.product-banner::after{background:#7c3aed;bottom:-30px;right:-30px}
+.banner-icon{font-size:44px;margin-bottom:8px;filter:drop-shadow(0 4px 14px rgba(0,0,0,.4));z-index:1}
+img.brand-logo{
+  z-index:1;object-fit:contain;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));
+  user-select:none;-webkit-user-drag:none;
+}
+img.brand-logo.banner-icon{width:54px;height:54px;margin-bottom:8px;font-size:0}
+img.brand-logo.banner-icon.wide{width:108px;height:54px}
+img.brand-logo.v-card-icon{width:38px;height:38px;margin-bottom:4px;font-size:0}
+img.brand-logo.v-card-icon.wide{width:76px;height:38px}
+img.brand-logo.grid-icon{width:26px;height:26px;font-size:0;flex-shrink:0}
+img.brand-logo.grid-icon.wide{width:52px;height:26px}
+.banner-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:#fff;letter-spacing:.04em;z-index:1}
+.banner-sub{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.18em;margin-top:4px;z-index:1}
+.product-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1;gap:12px}
+.product-name{font-size:16px;font-weight:600;color:#fff;line-height:1.3}
+.product-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.product-price{font-size:18px;font-weight:700;color:var(--accent);font-family:'Syne',sans-serif}
+.product-price small{font-size:11px;color:var(--text-dim);font-weight:500;margin-right:4px;font-family:'DM Sans',sans-serif}
+.stock-badge{
+  font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;
+  background:rgba(34,197,94,.12);color:#22c55e;
+  border:1px solid rgba(34,197,94,.25);
+}
+.stock-badge.low{background:rgba(245,158,11,.12);color:#f59e0b;border-color:rgba(245,158,11,.25)}
+.stock-badge.out{background:rgba(239,68,68,.12);color:#ef4444;border-color:rgba(239,68,68,.25)}
+.product-cta{
+  margin-top:auto;width:100%;padding:11px;
+  background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.25);
+  color:var(--accent);border-radius:10px;font-weight:600;font-size:14px;
+  transition:all .2s;
+}
+.product-cta:hover{background:var(--accent);color:#fff}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.78);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
+  opacity:0;transition:opacity .25s;
+}
+.modal-overlay.open{display:flex;opacity:1}
+.modal{
+  background:#0c0c16;
+  border:1px solid var(--border-strong);
+  border-radius:20px;width:100%;max-width:1100px;max-height:92vh;
+  overflow-y:auto;position:relative;
+  transform:translateY(20px) scale(.97);transition:transform .3s;
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-close{
+  position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,.6);color:#fff;font-size:18px;
+  display:flex;align-items:center;justify-content:center;z-index:10;
+  border:1px solid var(--border-strong);transition:all .2s;
+}
+.modal-close:hover{background:rgba(239,68,68,.2);border-color:#ef4444}
+
+/* Modal — Grid view (variant chooser) */
+.modal-grid{padding:30px 32px 36px}
+.modal-grid-header{display:flex;align-items:center;gap:10px;margin-bottom:24px;padding-right:48px}
+.modal-grid-header h2{font-size:22px;color:#fff;font-weight:700}
+.modal-grid-header .grid-icon{font-size:22px}
+.variants-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.v-card{
+  background:linear-gradient(180deg,#13131f,#0d0d18);
+  border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:all .25s;display:flex;flex-direction:column;
+}
+.v-card:hover:not(.disabled){
+  border-color:rgba(79,142,247,.55);
+  transform:translateY(-3px);
+  box-shadow:0 14px 32px -10px rgba(79,142,247,.3);
+}
+.v-card.disabled{opacity:.5;cursor:not-allowed}
+.v-card-banner{
+  position:relative;aspect-ratio:16/10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:14px;overflow:hidden;
+}
+.v-card-banner::before,.v-card-banner::after{
+  content:'';position:absolute;width:100px;height:100px;border-radius:50%;
+  filter:blur(35px);opacity:.5;pointer-events:none;
+}
+.v-card-banner::before{background:#4f8ef7;top:-25px;left:-25px}
+.v-card-banner::after{background:#7c3aed;bottom:-25px;right:-25px}
+.v-card-icon{font-size:32px;margin-bottom:4px;z-index:1}
+.v-card-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;z-index:1;color:#fff}
+.v-card-sub{font-size:9.5px;font-weight:600;color:var(--accent);letter-spacing:.18em;margin-top:2px;z-index:1}
+.v-card-info{padding:13px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.v-card-name{
+  font-size:13.5px;font-weight:600;color:#fff;line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;min-height:36px;
+}
+.v-card-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:auto}
+.v-card-price{color:var(--accent);font-weight:700;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif}
+.v-card-stock{color:var(--text-dim);font-size:11px;font-weight:500}
+.v-card-stock.out{color:#ef4444}
+
+/* Modal — Detail view */
+.modal-detail{padding:24px 32px 36px}
+.modal-back{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  padding:7px 14px 7px 11px;border-radius:100px;
+  font-size:13px;font-weight:500;color:var(--text-dim);
+  display:inline-flex;align-items:center;gap:6px;
+  margin-bottom:22px;transition:all .2s;
+}
+.modal-back:hover{color:#fff;background:rgba(255,255,255,.08);border-color:var(--border-strong)}
+.modal-detail-grid{display:grid;grid-template-columns:1fr 360px;gap:32px}
+.detail-left{min-width:0}
+.detail-instant{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;background:rgba(245,158,11,.12);
+  border:1px solid rgba(245,158,11,.35);color:#f59e0b;
+  font-size:11px;font-weight:700;border-radius:100px;
+  margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;
+}
+.detail-banner{
+  position:relative;aspect-ratio:16/9;border-radius:14px;
+  overflow:hidden;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;margin-bottom:26px;
+}
+.detail-banner::before,.detail-banner::after{
+  content:'';position:absolute;width:200px;height:200px;border-radius:50%;
+  filter:blur(60px);opacity:.55;pointer-events:none;
+}
+.detail-banner::before{background:#4f8ef7;top:-40px;left:-40px}
+.detail-banner::after{background:#7c3aed;bottom:-40px;right:-40px}
+.detail-banner .banner-icon{font-size:64px;z-index:1;margin-bottom:10px}
+.detail-banner img.brand-logo.banner-icon{width:78px;height:78px;margin-bottom:10px}
+.detail-banner img.brand-logo.banner-icon.wide{width:160px;height:78px}
+.detail-banner .banner-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:30px;letter-spacing:.04em;z-index:1;color:#fff}
+.detail-banner .banner-sub{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.2em;margin-top:6px;z-index:1}
+.detail-section{margin-bottom:24px}
+.detail-section h4{
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.14em;color:var(--text-dim);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.detail-section p{color:var(--text-dim);font-size:14px;line-height:1.7}
+.types-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.types-list li{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;background:rgba(255,255,255,.03);
+  border:1px solid var(--border);border-radius:10px;font-size:13px;
+  cursor:pointer;transition:all .18s;
+}
+.types-list li:hover{border-color:rgba(79,142,247,.4);background:rgba(79,142,247,.06)}
+.types-list li.active{border-color:var(--accent);background:rgba(79,142,247,.12)}
+.types-list li .t-name{flex:1;color:#fff;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.types-list li .t-price{color:var(--accent);font-weight:700;white-space:nowrap}
+.types-list li .t-stock{font-size:11px;font-weight:600;white-space:nowrap}
+
+/* Variant selector dropdown (purchase panel) */
+.variant-select{position:relative;margin-bottom:6px}
+.variant-select-trigger{
+  width:100%;background:rgba(79,142,247,.08);
+  border:1.5px solid rgba(79,142,247,.45);
+  border-radius:12px;padding:14px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  cursor:pointer;transition:all .2s;text-align:left;
+}
+.variant-select-trigger:hover{border-color:var(--accent);background:rgba(79,142,247,.12)}
+.select-caret{color:var(--accent);font-size:14px;transition:transform .2s;flex-shrink:0}
+.variant-select.open .select-caret{transform:rotate(180deg)}
+.variant-select-menu{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:#13131f;border:1px solid var(--border-strong);border-radius:12px;
+  max-height:280px;overflow-y:auto;z-index:30;
+  box-shadow:0 14px 40px -8px rgba(0,0,0,.5);padding:6px;
+}
+.variant-select.open .variant-select-menu{display:block}
+.variant-select-option{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .15s;
+}
+.variant-select-option:hover{background:rgba(79,142,247,.1)}
+.variant-select-option.active{background:rgba(79,142,247,.18)}
+.vso-info{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.vso-name{font-size:13px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vso-stock{font-size:11px;color:#22c55e;font-weight:600}
+.vso-price{color:var(--accent);font-weight:700;font-size:14px;white-space:nowrap}
+.features-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.features-list li{
+  font-size:13px;color:var(--text-dim);padding:9px 12px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;
+}
+
+/* Purchase panel */
+.purchase-panel{
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  border:1px solid var(--border-strong);border-radius:16px;padding:22px;
+  position:sticky;top:18px;height:fit-content;
+}
+.purchase-panel h3{font-size:18px;margin-bottom:16px;color:#fff}
+.purchase-variant{
+  background:rgba(79,142,247,.08);border:1.5px solid rgba(79,142,247,.45);
+  border-radius:12px;padding:14px 16px;margin-bottom:6px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+}
+.purchase-variant-info{min-width:0;flex:1}
+.purchase-variant-name{font-size:13px;font-weight:600;margin-bottom:6px;color:#fff;line-height:1.3}
+.purchase-variant-price{color:var(--accent);font-weight:700;font-size:18px;font-family:'Plus Jakarta Sans',sans-serif}
+.purchase-variant-stock{font-size:11px;font-weight:600;white-space:nowrap;padding-top:2px}
+.purchase-variant-stock.in{color:#22c55e}
+.purchase-variant-stock.out{color:#ef4444}
+.purchase-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-top:1px solid var(--border);
+}
+.purchase-row-label{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.12em}
+.qty-control{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:4px}
+.qty-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.05);font-size:16px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.qty-btn:hover{background:var(--accent);color:#fff}
+.qty-val{min-width:32px;text-align:center;font-weight:600;font-size:14px}
+.purchase-row-total{font-size:24px;font-weight:800;color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif}
+.purchase-actions{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.purchase-actions .btn{padding:13px 18px;font-size:14px}
+
+/* Cart sidebar */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.cart-overlay.open{opacity:1;pointer-events:auto}
+.cart-sidebar{
+  position:fixed;top:0;right:0;height:100vh;width:420px;max-width:100vw;
+  background:#0f0f1a;border-left:1px solid var(--border-strong);
+  z-index:301;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+}
+.cart-sidebar.open{transform:translateX(0)}
+.cart-header{padding:22px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-header h3{font-size:20px}
+.cart-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.05);font-size:16px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)}
+.cart-close:hover{background:rgba(239,68,68,.2)}
+.cart-items{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--text-dim);font-size:15px}
+.cart-empty-icon{font-size:48px;margin-bottom:14px;opacity:.4}
+.cart-item{display:flex;gap:12px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px}
+.cart-thumb{width:64px;height:64px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden;position:relative}
+.cart-thumb::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.15)}
+.cart-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cart-info-name{font-size:13px;font-weight:600;line-height:1.3}
+.cart-info-variant{font-size:11px;color:var(--text-dim)}
+.cart-info-row{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.cart-info-price{font-weight:700;color:var(--accent);font-size:14px;font-family:'Syne',sans-serif}
+.cart-qty{display:flex;align-items:center;gap:6px}
+.cart-qty button{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.06);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.cart-qty button:hover{background:var(--accent)}
+.cart-qty span{font-size:12px;font-weight:600;min-width:18px;text-align:center}
+.cart-remove{font-size:11px;color:#ef4444;background:none;padding:4px;margin-left:auto}
+.cart-remove:hover{text-decoration:underline}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border);background:#0a0a14}
+.cart-warn{font-size:12px;color:#f59e0b;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);padding:10px 12px;border-radius:10px;margin-bottom:14px;line-height:1.5}
+.cart-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:16px}
+.cart-total-val{font-size:22px;font-weight:700;color:var(--accent);font-family:'Syne',sans-serif}
+.cart-actions{display:flex;flex-direction:column;gap:8px}
+.cart-clear{text-align:center;font-size:12px;color:var(--text-dim);background:none;padding:8px;margin-top:6px}
+.cart-clear:hover{color:#ef4444}
+
+/* Flying clone animation */
+.fly-clone{
+  position:fixed;width:50px;height:50px;border-radius:10px;z-index:999;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:0 6px 20px rgba(79,142,247,.5);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+/* Why us & FAQ */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.faq-list{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--glass);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:rgba(79,142,247,.4)}
+.faq-q{width:100%;text-align:left;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:600;gap:10px}
+.faq-icon{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:rgba(79,142,247,.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;transition:transform .25s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--accent);color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;color:var(--text-dim);font-size:14px;line-height:1.7;padding:0 22px}
+.faq-item.open .faq-a{max-height:200px;padding:0 22px 18px}
+
+/* Footer */
+footer{background:#050508;border-top:1px solid var(--border);padding:54px 0 30px;position:relative;z-index:1}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.footer-col h4{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);margin-bottom:14px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col a{font-size:14px;color:var(--text-dim);transition:color .2s}
+.footer-col a:hover{color:var(--accent)}
+.footer-brand p{font-size:13px;color:var(--text-dim);margin-top:10px;max-width:320px;line-height:1.6}
+.footer-bottom{text-align:center;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim)}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);
+  background:#0f0f1a;border:1px solid var(--accent);
+  padding:12px 22px;border-radius:100px;font-size:14px;font-weight:500;
+  z-index:500;transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 12px 40px rgba(79,142,247,.25);
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translate(-50%,0)}
+
+/* Bank popup */
+.bank-popup{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(8px);
+}
+.bank-popup.open{display:flex}
+.bank-card{background:#0f0f1a;border:1px solid var(--border-strong);border-radius:18px;padding:30px;max-width:420px;text-align:center}
+.bank-card h3{font-size:22px;margin-bottom:12px}
+.bank-card p{color:var(--text-dim);margin-bottom:22px;line-height:1.6}
+.bank-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* Responsive */
+@media (max-width:1000px){
+  .modal-detail-grid{grid-template-columns:1fr;gap:24px}
+  .purchase-panel{position:static}
+  .variants-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .nav-links.open{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:rgba(8,8,16,.95);backdrop-filter:blur(20px);padding:20px;border-bottom:1px solid var(--border);gap:16px}
+  .features,.products-grid,.why-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr;gap:28px}
+  .modal-grid,.modal-detail{padding:22px 20px 28px}
+  .features-list{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .features,.products-grid,.why-grid{grid-template-columns:1fr}
+  .hero{padding:80px 16px 60px;min-height:80vh}
+  section{padding:60px 0}
+  .container{padding:0 16px}
+  .cart-sidebar{width:100%}
+  .variants-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .v-card-name{font-size:12.5px;min-height:32px}
+  .detail-banner .banner-title{font-size:24px}
+  .detail-banner .banner-icon{font-size:48px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#" class="brand">AnesShop</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#hero">Accueil</a>
+      <a href="#produits">Produits</a>
+      <a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener">Discord</a>
+    </div>
+    <div class="nav-actions">
+      <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+      <button class="cart-btn" id="cartBtn" aria-label="Panier">
+        🛒
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Support Discord 24/7</div>
+    <h1>Des produits de qualité.</h1>
+    <p>AnesShop — votre destination numéro un pour les comptes, outils et abonnements premium.</p>
+    <div class="hero-cta">
+      <a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener" class="btn btn-outline">💬 Rejoindre le Discord</a>
+      <a href="#produits" class="btn btn-primary">Voir les produits →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container">
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">✅</div>
+        <h3>Qualité Garantie</h3>
+        <p>Chaque produit est soigneusement vérifié avant livraison pour garantir votre satisfaction.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Livraison Rapide</h3>
+        <p>Après vérification de votre paiement, vous recevez vos produits en ticket Discord en quelques minutes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Support 24/7</h3>
+        <p>Notre équipe Discord est disponible à tout moment pour répondre à toutes vos questions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUITS -->
+<section id="produits">
+  <div class="container">
+    <div class="section-head">
+      <h2>Notre catalogue premium</h2>
+      <p>Comptes, abonnements et outils sélectionnés à la main. Recherchez, filtrez et choisissez votre produit.</p>
+    </div>
+
+    <div class="filters-bar">
+      <div class="filter-row">
+        <div class="filter-label">Mot-clé</div>
+        <div class="search-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="searchInput" class="search-input" placeholder="Rechercher un produit (Discord, Netflix, VPN…)" />
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="filter-label">Catégorie</div>
+        <div class="pills" id="categoryPills"></div>
+      </div>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+    <div id="noResults" style="display:none;text-align:center;padding:60px 20px;color:var(--text-dim)">
+      <div style="font-size:48px;margin-bottom:14px;opacity:.4">🔍</div>
+      Aucun produit ne correspond à votre recherche.
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>Pourquoi nous choisir</h2>
+      <p>Trois raisons pour lesquelles des centaines de clients nous font confiance chaque jour.</p>
+    </div>
+    <div class="why-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Paiement Sécurisé</h3>
+        <p>PayPal pour les paiements en ligne et virement bancaire via Discord pour plus de flexibilité.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Livraison Digitale</h3>
+        <p>Tous les produits sont remis directement via ticket Discord après confirmation du paiement.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Support Dédié</h3>
+        <p>Ouvrez un ticket Discord et obtenez une réponse en moins de 10 minutes en moyenne.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>Questions fréquentes</h2>
+      <p>Tout ce qu'il faut savoir avant de passer commande.</p>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="brand">AnesShop</div>
+        <p>Votre destination numéro un pour les comptes, outils et abonnements premium. Livraison instantanée et support Discord 24/7.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#hero">Accueil</a></li>
+          <li><a href="#produits">Produits</a></li>
+          <li><a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener">Discord</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Discord</h4>
+        <ul>
+          <li><a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener">💬 Rejoindre le serveur</a></li>
+          <li><a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener">🎫 Ouvrir un ticket</a></li>
+          <li><a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener">📞 Support 24/7</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 AnesShop — Tous droits réservés.</div>
+  </div>
+</footer>
+
+<!-- MODAL PRODUIT -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar" aria-label="Panier">
+  <div class="cart-header">
+    <h3>🛒 Votre panier</h3>
+    <button class="cart-close" id="cartClose" aria-label="Fermer">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-warn">⚠️ Lors du paiement PayPal, indiquez le nom de vos produits en note.</div>
+    <div class="cart-total">
+      <span>Total</span>
+      <span class="cart-total-val" id="cartTotalVal">€0.00</span>
+    </div>
+    <div class="cart-actions">
+      <button class="btn btn-accent btn-block" id="payPaypal">Payer avec PayPal 💳</button>
+      <button class="btn btn-outline btn-block" id="payBank">Payer par virement bancaire</button>
+      <button class="cart-clear" id="cartClear">Vider le panier</button>
+    </div>
+  </div>
+</aside>
+
+<!-- BANK POPUP -->
+<div class="bank-popup" id="bankPopup">
+  <div class="bank-card">
+    <div style="font-size:48px;margin-bottom:12px">🏦</div>
+    <h3>Paiement par virement bancaire</h3>
+    <p>Pour régler par virement bancaire, ouvrez un ticket sur notre serveur Discord. Notre équipe vous transmettra les coordonnées bancaires et confirmera votre commande.</p>
+    <div class="bank-actions">
+      <button class="btn btn-outline" id="bankClose">Fermer</button>
+      <a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener" class="btn btn-accent">💬 Ouvrir un ticket</a>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF OF PAYMENT POPUP (après PayPal) -->
+<div class="bank-popup" id="proofPopup">
+  <div class="bank-card">
+    <div style="font-size:48px;margin-bottom:12px">📨</div>
+    <h3>Paiement envoyé sur PayPal</h3>
+    <p>Une fois le paiement effectué sur PayPal, ouvrez un <strong style="color:#fff">ticket sur notre Discord</strong> et envoyez la <strong style="color:#fff">capture d'écran de preuve de paiement</strong>. Notre équipe livrera votre commande rapidement après vérification.</p>
+    <div class="bank-actions">
+      <button class="btn btn-outline" id="proofClose">Fermer</button>
+      <a href="https://discord.gg/hQASV6etX3" target="_blank" rel="noopener" class="btn btn-accent">💬 Ouvrir un ticket</a>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Ajouté au panier</div>
+
+<script>
+/* ════════════════════════════════════════════════
+   PRODUCTS DATA
+   ════════════════════════════════════════════════ */
+const PRODUCTS = [
+  {id:1,name:"Comptes Discord FA",category:"discord",banner:"linear-gradient(135deg,#0d1b4b,#1a237e)",bannerIcon:"💬",bannerTitle:"DISCORD",bannerSub:"ACCOUNTS",description:"💬 Comptes Discord FA – Accès Complet & Vérifiés. Des comptes Discord sécurisés, privés et entièrement vérifiés, prêts à l'emploi. Parfaits pour un usage personnel, des bots, du Nitro boosting ou des setups professionnels.",features:["🔐 Accès complet avec identifiants modifiables","🧼 Compte privé, jamais utilisé, 100% sécurisé","⚡ Livraison instantanée après paiement","🔁 Garantie de remplacement sous 24h","📧 E-Mail confirmé selon le variant choisi"],variants:[
+    {name:"E-Mail Vérifié",price:0.18,stock:2970,desc:"Compte basique vérifié par e-mail. Idéal pour démarrer rapidement."},
+    {name:"E-Mail + Téléphone Vérifié",price:0.21,stock:1580,desc:"Double vérification e-mail et téléphone pour plus de sécurité."},
+    {name:"3+ Mois Ancienneté",price:0.30,stock:632,desc:"Compte ancré de plus de 3 mois, vérifié e-mail et téléphone."},
+    {name:"Comptes 2023",price:1.80,stock:300,desc:"Compte créé en 2023, vérifié. Idéal pour l'ancienneté."},
+    {name:"Comptes 2020",price:2.40,stock:2,desc:"Compte créé en 2020. Ancienneté garantie, haute confiance."},
+    {name:"Comptes 2019",price:3.40,stock:34,desc:"Compte créé en 2019. Très ancré, parfait pour les usages avancés."},
+    {name:"Comptes 2018",price:3.95,stock:26,desc:"Compte créé en 2018. Ancienneté rare et précieuse."},
+    {name:"Comptes 2017",price:5.15,stock:0,desc:"Compte créé en 2017. Extrêmement ancré et fiable."},
+    {name:"Comptes 2016",price:9.35,stock:14,desc:"Compte créé en 2016. Le plus ancien disponible, collection rare."},
+    {name:"Nitro 1 Mois + 2 Boosts",price:2.75,stock:0,desc:"Compte avec Nitro 1 mois + 2 boosts actifs, vérifié par téléphone."},
+    {name:"Nitro 3 Mois + 2 Boosts",price:4.30,stock:30,desc:"Compte avec Nitro 3 mois + 2 boosts actifs. Meilleure valeur."}
+  ]},
+  {id:2,name:"Rockstar Tool",category:"games",banner:"linear-gradient(135deg,#1a0a2e,#0d1b4b)",bannerIcon:"⭐",bannerTitle:"ROCKSTAR",bannerSub:"TOOL",description:"🛡️ Rockstar Tool – Générateur de Comptes en Masse. Automatisez la création de comptes Rockstar Games rapidement et efficacement. Idéal pour les revendeurs et les setups automatisés.",features:["📜 Accès au code source complet","⚡ Jusqu'à 100 comptes créés en ~40 minutes","🛡️ Compatible VPN & proxies rotatifs (Mysterium)","🔁 Script personnalisable et extensible","⏳ Livraison instantanée après paiement"],variants:[
+    {name:"Rockstar Tool",price:20.00,stock:1,desc:"Script complet de génération de comptes Rockstar en masse. Code source inclus."}
+  ]},
+  {id:3,name:"Comptes CS2 Prime",category:"games",banner:"linear-gradient(135deg,#0a1628,#1a3a5c)",bannerIcon:"🎮",bannerTitle:"CS2 PRIME",bannerSub:"ACCOUNTS",description:"🎮 Comptes CS2 Prime – Accès Complet. Des comptes CS2 Prime premium prêts à jouer immédiatement. Accès complet avec e-mail modifiable. Parfaits pour le ranked, les revendeurs ou comme smurf propre.",features:["🔐 Accès complet — identifiants entièrement modifiables","🛡️ Sécurisé & permanent","📦 Format: Pseudo Steam : MDP : E-Mail : MDP E-Mail","⚡ Accès instantané après paiement","🟢 Haut facteur de confiance"],variants:[
+    {name:"CS2 Prime (0-300h) Médailles 0-2",price:12.85,stock:40,desc:"Compte CS2 Prime avec 0 à 300 heures et 0 à 2 médailles. Parfait pour commencer."},
+    {name:"CS2 Prime (1100-4000h) Médailles 6-8",price:23.50,stock:26,desc:"Compte CS2 Prime expérimenté avec 1100-4000h et 6-8 médailles. Haute confiance."}
+  ]},
+  {id:4,name:"Comptes Apex Legends",category:"games",banner:"linear-gradient(135deg,#0f1923,#1a2a3a)",bannerIcon:"🏆",bannerTitle:"APEX LEGENDS",bannerSub:"ACCOUNTS",description:"🛡️ Comptes Apex Legends – Ranked & Accès Complet. Des comptes prêts pour le ranked avec contrôle total et cosmétiques exclusifs potentiels.",features:["🏆 Comptes prêts pour le ranked — pas de grinding","🔐 Identifiants modifiables","🎨 Cosmétiques exclusifs potentiels inclus","⚡ Livraison instantanée","🔁 Garantie 24h"],variants:[
+    {name:"Niveau 20-100 [Ranked Ready]",price:8.05,stock:23,desc:"Compte niveau 20-100, prêt pour le ranked. Idéal pour débuter en compétitif."},
+    {name:"Niveau 100-300 [Ranked Ready]",price:16.50,stock:15,desc:"Compte niveau 100-300, expérimenté et prêt pour le ranked avancé."},
+    {name:"Niveau 300-500 [Ranked Ready]",price:22.00,stock:8,desc:"Compte niveau 300-500, très expérimenté avec cosmétiques exclusifs potentiels."}
+  ]},
+  {id:5,name:"Comptes Valorant EU",category:"games",banner:"linear-gradient(135deg,#1a0a1a,#2d1b4e)",bannerIcon:"🗡️",bannerTitle:"VALORANT",bannerSub:"ACCOUNTS",description:"🟡 Comptes Valorant EU – Ranked Ready & Skins Premium. Des comptes EU prêts pour le ranked avec couteaux garantis et skins premium.",features:["🌍 Tous les comptes région Europe (EU)","🛡️ Identifiants sécurisés (E-Mail : Mot de passe)","✨ Sélectionnés à la main — drops premium uniquement","🕒 Garantie remplacement 24h","🔐 Accès complet & connexion privée"],variants:[
+    {name:"EU – Niveau 1-20 [Ranked Ready]",price:7.50,stock:186,desc:"Compte EU niveau 1-20, prêt pour le ranked. Pas de skins garantis."},
+    {name:"EU – Niveau 1-20 [Couteau + Skins]",price:12.50,stock:91,desc:"Niveau 1-20 avec 1+ couteau et 1+ skin garantis. Inventaire: 1000-3000VP."},
+    {name:"EU – Niveau 20-40 [Couteau + Skins]",price:14.75,stock:61,desc:"Niveau 20-40 avec couteau garanti. Inventaire: 2000-5000VP."},
+    {name:"EU – Niveau 40-100 [Couteau + Skins]",price:19.25,stock:32,desc:"Niveau 40-100 avec plusieurs skins. Inventaire: 3000-10000VP."},
+    {name:"EU – Niveau 50-200 [Couteau + Skins]",price:26.50,stock:28,desc:"Niveau 50-200 avec skins haute valeur. Inventaire: 5000-20000VP."},
+    {name:"EU – Niveau 100-300 [Couteau + Skins]",price:39.00,stock:6,desc:"Niveau 100-300+ avec skins maximum valeur. Inventaire: 30000-55000VP."}
+  ]},
+  {id:6,name:"Comptes Rainbow Six Siege",category:"games",banner:"linear-gradient(135deg,#0a1428,#1a2840)",bannerIcon:"🎯",bannerTitle:"RAINBOW SIX",bannerSub:"ACCOUNTS",description:"🟤 Comptes Rainbow Six Siege – Accès Complet. Jouez à R6 avec contrôle total, comptes prêts pour le ranked et contenu exclusif.",features:["🔐 Accès complet (E-Mail & Mot de passe)","🎁 Contenu exclusif — skins rares, opérateurs","⚡ Support rapide disponible","🕒 Garantie 24h"],variants:[
+    {name:"Niveau 10-50",price:7.50,stock:75,desc:"Compte niveau 10-50, accès complet, prêt pour le ranked."},
+    {name:"Niveau 100-300 [100+ Skins]",price:28.50,stock:24,desc:"Compte niveau 100-300 avec 100+ skins et 70+ opérateurs."}
+  ]},
+  {id:7,name:"Comptes Fortnite FA",category:"games",banner:"linear-gradient(135deg,#0a1428,#1a3a5c)",bannerIcon:"🎮",bannerTitle:"FORTNITE",bannerSub:"ACCOUNTS",description:"🎮 Comptes Fortnite FA – Accès Complet & Skins. Des comptes Fortnite premium avec accès complet garanti. Sécurisés, propres et prêts à l'emploi.",features:["🔐 Accès complet garanti","✅ Comptes propres et sécurisés","💎 Haute qualité","♻️ Garantie remplacement 24h"],variants:[
+    {name:"3-10 Skins [Ranked Ready]",price:4.35,stock:0,desc:"Compte avec 3 à 10 skins, prêt pour le ranked."},
+    {name:"10-20 Skins [Ranked Ready]",price:4.75,stock:263,desc:"Compte avec 10 à 20 skins, prêt pour le ranked."},
+    {name:"20-50 Skins [Ranked Ready]",price:5.50,stock:166,desc:"Compte avec 20 à 50 skins, prêt pour le ranked."},
+    {name:"50-100 Skins [OG Outfits]",price:6.75,stock:54,desc:"50 à 100 skins incluant des tenues OG rares."},
+    {name:"100-150 Skins [OG Outfits]",price:9.50,stock:79,desc:"100 à 150 skins OG. Peut inclure Black Knight, Minty Axe."},
+    {name:"150-250 Skins [OG Outfits]",price:11.50,stock:69,desc:"150 à 250 skins OG rares. Souvent Minty Axe, Black Knight."},
+    {name:"100-250 [Tryhard Skins Only]",price:12.55,stock:51,desc:"100 à 250 skins tryhard uniquement. 50+ skins du Item Shop."},
+    {name:"OG STW + 100-200 Skins",price:13.85,stock:24,desc:"Save The World OG avec 100 à 200 skins. Items ultra-rares possibles."},
+    {name:"Travis Scott + 100-250 Skins",price:29.00,stock:23,desc:"Skin Travis Scott exclusif + 100 à 250 skins. Très rare."},
+    {name:"400-600 Skins [OG Outfits]",price:32.50,stock:14,desc:"400 à 600 skins OG exclusifs. Collection légendaire."},
+    {name:"Black Knight + 50-250 Skins",price:59.00,stock:19,desc:"Black Knight ultra-rare + 50 à 250 skins premium. Graal des collectionneurs."}
+  ]},
+  {id:8,name:"Fortnite V-Bucks",category:"games",banner:"linear-gradient(135deg,#1a1428,#2d1b4e)",bannerIcon:"💰",bannerTitle:"FORTNITE",bannerSub:"V-BUCKS ACCOUNTS",logoKey:"FORTNITE V-BUCKS",description:"💛 Fortnite V-Bucks – Comptes avec Solde. Des comptes Fortnite avec V-Bucks inclus, prêts à dépenser en boutique.",features:["💰 V-Bucks inclus selon le tier","🔐 Accès complet — identifiants modifiables","⚡ Livraison instantanée","🔁 Garantie 24h"],variants:[
+    {name:"800-1200 V-Bucks",price:6.50,stock:81,desc:"Compte avec 800 à 1200 V-Bucks. Idéal pour 1-2 skins."},
+    {name:"1500-2800 V-Bucks",price:9.00,stock:43,desc:"Compte avec 1500 à 2800 V-Bucks. Parfait pour plusieurs achats boutique."},
+    {name:"5000-7000 V-Bucks",price:17.50,stock:10,desc:"Compte avec 5000 à 7000 V-Bucks. Budget premium pour toute la boutique."}
+  ]},
+  {id:9,name:"Comptes Clash Royale",category:"games",banner:"linear-gradient(135deg,#1a0a0a,#3a1a1a)",bannerIcon:"👑",bannerTitle:"CLASH ROYALE",bannerSub:"ACCOUNTS",description:"🏆 Comptes Clash Royale – Haute Coupe. Des comptes avec nombre de trophées élevé, prêts à dominer le ladder.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","🏅 Trophées selon variant","🧼 Comptes propres — sans bans","🕒 Garantie 24h","⚡ Livraison instantanée"],variants:[
+    {name:"1000-2500 Trophées",price:5.50,stock:119,desc:"Compte avec 1000-2500 trophées. Idéal pour les débutants."},
+    {name:"2500-5000 Trophées",price:7.25,stock:56,desc:"Compte avec 2500-5000 trophées. Bon niveau classé."},
+    {name:"5000-7000 Trophées",price:10.50,stock:27,desc:"Compte avec 5000-7000 trophées. Niveau élevé et compétitif."},
+    {name:"7000-10000 Trophées",price:14.25,stock:13,desc:"Compte 7000-10000 trophées. Très compétitif."},
+    {name:"10000-12000 Trophées",price:19.00,stock:7,desc:"Compte légendaire 10000-12000 trophées. Le summum."}
+  ]},
+  {id:10,name:"Roblox (Robux)",category:"games",banner:"linear-gradient(135deg,#1a1a1a,#2a2a2a)",bannerIcon:"🎲",bannerTitle:"ROBLOX",bannerSub:"ACCOUNT",description:"🎲 Comptes Roblox – Valeur d'Inventaire. Des comptes triés par valeur d'inventaire estimée. Parfaits pour les collectionneurs et traders.",features:["🔷 Tiers basés sur valeur d'inventaire estimée","🧾 Valorisation basée sur le marché Roblox / RAP","🚀 Prêt pour trading & collection","⚡ Livraison instantanée (login:password)","🛡️ Garantie validité du compte"],variants:[
+    {name:"1,000-2,500 Robux",price:6.95,stock:233,desc:"Compte avec inventaire estimé 1000-2500 Robux."},
+    {name:"2,500-5,000 Robux",price:8.50,stock:248,desc:"Compte avec inventaire estimé 2500-5000 Robux."},
+    {name:"5,000-10,000 Robux",price:11.50,stock:167,desc:"Compte avec inventaire estimé 5000-10000 Robux."},
+    {name:"10,000-15,000 Robux",price:14.50,stock:122,desc:"Compte avec inventaire estimé 10000-15000 Robux."},
+    {name:"15,000-25,000 Robux",price:17.25,stock:83,desc:"Compte avec inventaire estimé 15000-25000 Robux."},
+    {name:"25,000-50,000 Robux",price:22.50,stock:36,desc:"Compte avec inventaire estimé 25000-50000 Robux. Collection rare."}
+  ]},
+  {id:11,name:"GTA 5 Full Access",category:"games",banner:"linear-gradient(135deg,#1a1428,#2a1a28)",bannerIcon:"🚗",bannerTitle:"GTA 5",bannerSub:"ACCOUNTS",description:"🚗 Compte GTA 5 – Accès Complet. Compte GTA 5 avec accès complet incluant e-mail SocialClub, webmail et compatibilité FiveM. PC uniquement.",features:["🔓 E-Mail + Mot de passe (SocialClub & Webmail)","🎮 GTA + FiveM Ready","💻 PC uniquement","🔑 E-Mail & Mot de passe modifiables","🕒 Garantie 24h"],variants:[
+    {name:"GTA 5 Full Access",price:10.90,stock:15,desc:"Compte GTA 5 accès complet avec SocialClub et webmail. Compatible FiveM."}
+  ]},
+  {id:12,name:"RDR2 Social Club",category:"games",banner:"linear-gradient(135deg,#1a0a0a,#2a1010)",bannerIcon:"🤠",bannerTitle:"RED DEAD 2",bannerSub:"ACCOUNTS",description:"🤠 Comptes RDR2 Social Club – Accès Complet. Des comptes Red Dead Redemption 2 Social Club premium. Parfaits pour le solo et le multijoueur.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","🐎 Accès RDR2 inclus","✨ Certains comptes: progression ou bonus rares","🧼 Compte propre — sans bans","🕒 Garantie 24h"],variants:[
+    {name:"RDR2 Social Club",price:7.70,stock:6,desc:"Compte RDR2 Social Club accès complet. Prêt à explorer le Far West."}
+  ]},
+  {id:13,name:"EA FC 26",category:"games",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"⚽",bannerTitle:"EA FC 26",bannerSub:"ACCOUNTS",description:"⚽ Compte EA FC 26 – Accès Complet. Des comptes EA FC 26 premium vérifiés. Propres, sécurisés et prêts à jouer.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","🧼 Compte propre sans bans","✅ Identifiants instantanés","✨ Certains comptes: joueurs FUT rares","🕒 Garantie 24h"],variants:[
+    {name:"EA FC 26 Full Access",price:18.75,stock:10,desc:"Compte EA FC 26 accès complet sur PC (Origin / EA App)."}
+  ]},
+  {id:14,name:"FiveM Ready [Fresh]",category:"games",banner:"linear-gradient(135deg,#0a1428,#0d2040)",bannerIcon:"🛡️",bannerTitle:"FIVEM READY",bannerSub:"ROCKSTAR ACCOUNTS",description:"🛡️ Comptes FiveM Ready [Fresh] – Accès Complet. Des comptes FiveM Ready frais. Idéaux pour unbans et spoofers, compatibles serveurs FiveM.",features:["🧾 Format E-Mail : Mot de passe","🔐 Accès complet — tout modifiable","🧠 Spoofer & Unban Ready","⚡ Livraison instantanée","📨 Accès Webmail inclus","🔁 Remplacement gratuit sous garantie"],variants:[
+    {name:"FiveM Ready Fresh",price:0.40,stock:999,desc:"Compte FiveM Ready tout frais. Parfait pour contourner les bans ou repartir de zéro."}
+  ]},
+  {id:15,name:"Compte Rust",category:"games",banner:"linear-gradient(135deg,#1a0a00,#2a1500)",bannerIcon:"🧱",bannerTitle:"RUST",bannerSub:"ACCOUNTS",description:"🧱 Compte Rust – Accès Complet (0 Owner | 0 Hours). Des comptes Rust avec e-mail original et aucun propriétaire précédent.",features:["🔐 Accès complet — e-mail original inclus","🆕 0 propriétaire précédent","⏱️ 0 heures jouées","🧼 Aucun ban signalé","🕒 Garantie 24h"],variants:[
+    {name:"Rust Account (0h | 0 Owner)",price:7.50,stock:50,desc:"Compte Rust tout neuf, jamais joué, aucun propriétaire précédent."}
+  ]},
+  {id:16,name:"Minecraft Full Access",category:"games",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"⛏️",bannerTitle:"MINECRAFT",bannerSub:"ACCOUNTS",description:"⛏️ Comptes Minecraft – Accès Complet. Des comptes Minecraft avec contrôle total, statut propre garanti et livraison instantanée.",features:["✅ Jamais utilisé — tout neuf","🔐 Accès complet — e-mail + mot de passe + skin modifiables","🚫 Non banni — propre sur tous les serveurs","⚡ Livraison instantanée"],variants:[
+    {name:"Minecraft Full Access",price:4.95,stock:100,desc:"Compte Minecraft tout neuf accès complet. Jamais connecté, propre sur tous les serveurs."}
+  ]},
+  {id:17,name:"14x Server Boosts Discord",category:"discord",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"⭐",bannerTitle:"DISCORD",bannerSub:"SERVER BOOSTS",description:"🛡️ 14x Server Boosts Discord – Niveau 3 Instantané. Boostez votre serveur Discord au niveau 3 en quelques secondes.",features:["🚀 14x Boosts (1 Mois) — upgrade Level 3 instantanée","⚡ Livraison instantanée","🖥️ Fonctionne sur n'importe quel serveur","💬 Support inclus","🌟 Achat unique"],variants:[
+    {name:"14x Server Boosts (1 Mois)",price:5.00,stock:20,desc:"14 boosts Discord d'un mois pour passer instantanément au Niveau 3."}
+  ]},
+  {id:18,name:"Gemini Pro 2 Years",category:"tools",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🤖",bannerTitle:"GEMINI PRO",bannerSub:"ACCOUNTS",description:"🤖 Gemini Pro Business – Accès Multi-Utilisateurs 2 Ans. Compte Gemini Pro Business prêt à l'emploi pour équipes et workflows collaboratifs.",features:["👥 Jusqu'à 14 utilisateurs","🤖 Outils IA avancés — rédaction, code & automatisation","💼 Parfait pour la collaboration","⚡ Haute performance","🔑 Accès complet (e-mail + mot de passe)"],variants:[
+    {name:"Gemini Pro + Antigravity 2 Years",price:5.00,stock:49,desc:"Accès Gemini Pro Business pour 2 ans avec fonctionnalités avancées multi-utilisateurs."}
+  ]},
+  {id:19,name:"CapCut Pro Lifetime",category:"tools",banner:"linear-gradient(135deg,#0a0a1a,#1a1a2e)",bannerIcon:"✂️",bannerTitle:"CAPCUT PRO",bannerSub:"ACCOUNTS",description:"✂️ CapCut Pro Lifetime – Accès à Vie. Débloquez toute la puissance de CapCut Pro sans abonnement mensuel.",features:["♾️ Accès CapCut Pro à vie","🪄 Tous les outils d'édition premium débloqués","📸 Export sans filigrane","🧼 Compte propre et sécurisé","🕒 Garantie 24h"],variants:[
+    {name:"CapCut Pro Lifetime",price:3.00,stock:50,desc:"Accès CapCut Pro à vie sur PC et mobile. Tous les effets premium sans filigrane."}
+  ]},
+  {id:20,name:"Wondershare Filmora Lifetime",category:"tools",banner:"linear-gradient(135deg,#1a0a0a,#2a1010)",bannerIcon:"🎬",bannerTitle:"WONDERSHARE",bannerSub:"FILMORA LIFETIME",description:"🎬 Wondershare Filmora – Licence à Vie. Créez des vidéos professionnelles facilement. Parfait pour YouTube, TikTok et business.",features:["♾️ Accès à vie — sans abonnement","🎥 Outils d'édition avancés","⚡ Facile pour débutants","💻 Idéal pour créateurs","📤 Export HD/4K"],variants:[
+    {name:"Wondershare Filmora Lifetime",price:3.00,stock:0,desc:"Licence Filmora à vie via clé de licence. Accès NFA, livraison instantanée."}
+  ]},
+  {id:21,name:"Disney+ Lifetime",category:"streaming",banner:"linear-gradient(135deg,#000d2e,#001a4e)",bannerIcon:"🏰",bannerTitle:"DISNEY PLUS",bannerSub:"ACCOUNTS",description:"🎬 Compte Disney+ Lifetime. Streaming illimité pour toujours. Disney, Marvel, Star Wars, Pixar et National Geographic.",features:["🏷️ Compte Disney+ Premium — accès à vie","📺 Films, séries et originaux en illimité","🌍 Fonctionne partout","⚡ Livraison instantanée","📩 Support inclus"],variants:[
+    {name:"Disney+ Lifetime NFA",price:3.00,stock:999,desc:"Compte Disney+ à vie. Tout l'univers Disney, Marvel, Star Wars sans limite."}
+  ]},
+  {id:22,name:"Paramount+ Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a0a2e,#1a1a4e)",bannerIcon:"⭐",bannerTitle:"PARAMOUNT+",bannerSub:"LIFETIME",description:"🎬 Compte Paramount+ – Accès Complet. Des comptes Paramount+ vérifiés pour accès illimité aux films, séries et originaux exclusifs.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","📺 Streaming illimité","✨ Certains comptes: add-ons premium actifs","🕒 Garantie 24h","⚡ Livraison instantanée"],variants:[
+    {name:"Paramount+ LATAM + EU",price:3.00,stock:322,desc:"Compte Paramount+ fonctionnant en Amérique Latine et Europe."},
+    {name:"Paramount+ USA",price:3.00,stock:100,desc:"Compte Paramount+ fonctionnant uniquement aux États-Unis."}
+  ]},
+  {id:23,name:"Netflix Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0000,#2a0000)",bannerIcon:"🎬",bannerTitle:"NETFLIX",bannerSub:"LIFETIME ACCOUNTS",description:"🎬 Compte Netflix Lifetime. Films et séries illimités — un seul paiement, accès à vie. Netflix Premium sans frais mensuels.",features:["🔥 Netflix Premium — accès à vie","👪 Jusqu'à 4 appareils (UHD/4K)","🌍 Pas de restriction de région","📱 Smart TVs, téléphones, tablettes","⚡ Livraison instantanée"],variants:[
+    {name:"Netflix Premium Lifetime",price:3.00,stock:500,desc:"Compte Netflix Premium à vie. 4K UHD, 4 écrans simultanés, contenu mondial illimité."}
+  ]},
+  {id:24,name:"YouTube Premium Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0000,#2a0000)",bannerIcon:"▶️",bannerTitle:"YOUTUBE",bannerSub:"PREMIUM LIFETIME",description:"🎥 YouTube Premium – Accès Complet. YouTube sans pubs, lecture en arrière-plan, téléchargements hors-ligne & YouTube Music. Compte avec accès complet.",features:["🎥 YouTube Premium — Accès Complet","🔑 Identifiants complets (e-mail + mot de passe)","🔄 Mot de passe et récupération modifiables","📱 Sans pubs, lecture fond, YouTube Music","🌍 Fonctionne partout"],variants:[
+    {name:"YouTube Premium Lifetime",price:4.00,stock:99,desc:"Compte YouTube Premium à vie avec accès complet. Sans pubs, lecture fond, YouTube Music."}
+  ]},
+  {id:25,name:"HBO Max Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🟣",bannerTitle:"HBO MAX",bannerSub:"LIFETIME",description:"🎬 Compte HBO Max Lifetime. Streamez blockbusters & séries phares à vie. Tout HBO Max sans frais mensuels.",features:["🟣 HBO Max Premium — accès à vie","🎬 Originaux HBO, Max exclusivités & Warner Bros.","📺 Smart TVs, mobile, tablettes","🌍 Accès mondial","⚡ Livraison instantanée"],variants:[
+    {name:"HBO Max Lifetime",price:3.00,stock:200,desc:"Compte HBO Max Premium à vie. Originaux HBO, films Warner Bros., séries exclusives."}
+  ]},
+  {id:26,name:"Spotify Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"🎵",bannerTitle:"SPOTIFY",bannerSub:"LIFETIME",description:"🎵 Compte Spotify Lifetime – Plan Famille & Étudiant. Musique illimitée, sans pubs, qualité premium pour toujours.",features:["🏷️ Spotify Premium (Famille & Étudiant) — à vie","🚫 Sans pubs, skips illimités, écoute hors-ligne","🔊 Streaming audio haute qualité","🌍 Fonctionne partout","⚡ Livraison instantanée"],variants:[
+    {name:"Spotify Premium Lifetime",price:3.00,stock:150,desc:"Compte Spotify Premium à vie. Sans pubs, écoute offline, qualité audio maximale."}
+  ]},
+  {id:27,name:"Prime Video Lifetime",category:"streaming",banner:"linear-gradient(135deg,#001a2e,#002a4e)",bannerIcon:"📺",bannerTitle:"PRIME VIDEO",bannerSub:"LIFETIME",description:"🎬 Compte Prime Video Lifetime. Accès complet, regardez n'importe quand, n'importe où. Pas de frais récurrents.",features:["🔑 Accès complet","♾️ Garantie à vie — pas de frais récurrents","📺 Streaming HD/4K","🌍 Accès mondial","📦 Livraison instantanée (login:password)"],variants:[
+    {name:"Prime Video Lifetime",price:3.00,stock:300,desc:"Compte Amazon Prime Video à vie. HD/4K, accès mondial, des milliers de films et séries."}
+  ]},
+  {id:28,name:"Crunchyroll Mega Fan Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0a00,#2a1500)",bannerIcon:"🍜",bannerTitle:"CRUNCHYROLL",bannerSub:"MEGA FAN",description:"🍜 Crunchyroll [MEGA FAN MEMBER] – Lifetime. Streaming anime illimité, sans pubs et fonctionnalités exclusives pour toujours.",features:["🍿 Membership MEGA FAN — à vie","🧼 Compte propre — sans bans","📺 Streaming anime illimité, sans pubs","🌍 Fonctionne partout avec VPN","🕒 Garantie 24h"],variants:[
+    {name:"Crunchyroll Mega Fan Lifetime",price:3.00,stock:200,desc:"Compte Crunchyroll Mega Fan à vie. Streaming anime illimité, sans pubs, contenu exclusif."}
+  ]},
+  {id:29,name:"DAZN Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a1a0a,#1a2a1a)",bannerIcon:"🏆",bannerTitle:"DAZN",bannerSub:"LIFETIME",description:"🏆 Compte DAZN – Accès à Vie. Streaming sports premium incluant boxe, football, MMA et événements en direct.",features:["♾️ Accès à vie — pas de paiements mensuels","🥊 Boxe, MMA, football & plus","🌍 Événements mondiaux","🔑 Connexion prête","📺 Streaming HD"],variants:[
+    {name:"DAZN Lifetime",price:3.00,stock:100,desc:"Compte DAZN à vie. Boxe, MMA, football et tous les grands événements sportifs."}
+  ]},
+  {id:30,name:"AMC+ Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0a0a,#2a1010)",bannerIcon:"🎬",bannerTitle:"AMC+",bannerSub:"LIFETIME",description:"🎬 AMC+ Lifetime – Streaming Premium. Séries de qualité, films et originaux exclusifs. Pour les fans de storytelling de haute qualité.",features:["♾️ Accès à vie","🎥 Séries premium — originaux AMC exclusifs","🔪 Univers The Walking Dead","🔑 Accès instantané","📺 Streaming HD"],variants:[
+    {name:"AMC+ Lifetime",price:3.00,stock:100,desc:"Compte AMC+ à vie. The Walking Dead, originaux AMC, films thriller/horreur."}
+  ]},
+  {id:31,name:"OnePlay Premium",category:"streaming",banner:"linear-gradient(135deg,#0a0a2e,#1a1a4e)",bannerIcon:"📺",bannerTitle:"ONEPLAY",bannerSub:"ACCOUNTS",description:"📺 Comptes OnePlay – Accès Premium. Contenu streaming européen populaire incluant émissions TV, chaînes en direct et séries exclusives.",features:["📺 Accès Premium — films, émissions & chaînes en direct","🌍 Contenu EU — Tchéquie, Slovaquie & Europe","🎬 Émissions exclusives — Love Island & hits locaux","⚡ Livraison instantanée","🛠️ Support & remplacement"],variants:[
+    {name:"OnePlay Premium",price:3.00,stock:80,desc:"Compte OnePlay avec accès au contenu streaming européen exclusif. Love Island et plus."}
+  ]},
+  {id:32,name:"Movistar+ Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a1a2e,#1a2a4e)",bannerIcon:"📺",bannerTitle:"MOVISTAR+",bannerSub:"LIFETIME",description:"📺 Movistar+ Lifetime – Abonnement Premium. Contenu streaming espagnol premium incluant films, séries, sports et sorties exclusives.",features:["♾️ Accès à vie — pas de paiements mensuels","🎬 Films, séries, sports & contenu HBO","🌍 Plateforme espagnole — contenu unique","⚡ Livraison instantanée","🔁 Autorenew activé"],variants:[
+    {name:"Movistar+ Lifetime",price:3.00,stock:50,desc:"Compte Movistar+ à vie. Films, séries, sports en direct et contenu espagnol exclusif."}
+  ]},
+  {id:33,name:"UFC Fight Pass Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0000,#2a0000)",bannerIcon:"🥊",bannerTitle:"UFC FIGHT PASS",bannerSub:"LIFETIME",description:"🥊 Compte UFC Fight Pass Lifetime. Regardez chaque combat, à tout moment, pour toujours.",features:["💥 UFC Fight Pass — accès à vie","🥇 Combats en direct & archives","📺 PC, mobile, tablette, smart TV","🌍 Accès mondial","⚡ Livraison instantanée"],variants:[
+    {name:"UFC Fight Pass Lifetime",price:3.00,stock:100,desc:"Compte UFC Fight Pass à vie. Tous les combats, archives historiques, événements exclusifs."}
+  ]},
+  {id:34,name:"NBA Lifetime",category:"streaming",banner:"linear-gradient(135deg,#1a0a00,#2a1500)",bannerIcon:"🏀",bannerTitle:"NBA",bannerSub:"LEAGUE PASS LIFETIME",description:"🏀 Compte NBA Lifetime – Accès Complet. Des comptes streaming NBA avec accès à vie — chaque match, highlight & contenu exclusif sans limites.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","📺 Accès streaming à vie","🏆 Matchs en direct, highlights & replays","✨ Certains comptes: fonctionnalités bonus","🕒 Garantie 24h"],variants:[
+    {name:"NBA League Pass Lifetime",price:3.00,stock:150,desc:"Compte NBA League Pass à vie. Tous les matchs en direct, highlights et contenu exclusif."}
+  ]},
+  {id:35,name:"Duolingo Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"🦉",bannerTitle:"DUOLINGO",bannerSub:"LIFETIME",description:"🧠 Compte Duolingo Lifetime. Maîtrisez de nouvelles langues pour toujours — sans abonnement.",features:["🌟 Duolingo Plus — accès à vie","🚫 Sans pubs — apprentissage sans distraction","📊 Toutes fonctionnalités débloquées","🌍 Fonctionne partout","⚡ Livraison instantanée"],variants:[
+    {name:"Duolingo Plus Lifetime",price:3.00,stock:200,desc:"Compte Duolingo Plus à vie. Apprenez n'importe quelle langue sans pubs et sans limites."}
+  ]},
+  {id:36,name:"NordVPN Lifetime",category:"vpn",banner:"linear-gradient(135deg,#003366,#004d99)",bannerIcon:"❄️",bannerTitle:"NORDVPN",bannerSub:"LIFETIME VPN",description:"❄️ NordVPN – Accès à Vie. Chiffrement militaire, zéro log, vitesses optimales pour streaming et gaming.",features:["🌐 Accès illimité à NordVPN","🔒 Chiffrement grade militaire & zéro log","⚡ Vitesses rapides & stables","🖥️ Windows, macOS, Android, iOS","📦 Livraison instantanée"],variants:[
+    {name:"NordVPN Lifetime",price:3.00,stock:100,desc:"Accès NordVPN à vie. Sécurité maximale, zéro logs, vitesse optimale."}
+  ]},
+  {id:37,name:"CyberGhost VPN 1 An",category:"vpn",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"👻",bannerTitle:"CYBERGHOST",bannerSub:"LIFETIME VPN",description:"👻 CyberGhost VPN – 1 An. 256-bit AES, 9000+ serveurs dans 90+ pays. Connexions rapides pour streaming & gaming.",features:["🔐 Chiffrement 256-bit","🚫 Zéro log — anonymat complet","🌐 9000+ serveurs dans 90+ pays","⚡ Rapide pour streaming & gaming","📱 Jusqu'à 7 appareils"],variants:[
+    {name:"CyberGhost VPN 1 An",price:3.00,stock:264,desc:"CyberGhost VPN pendant 1 an. 9000+ serveurs, 256-bit, bloqueur de pubs intégré."}
+  ]},
+  {id:38,name:"TunnelBear VPN",category:"vpn",banner:"linear-gradient(135deg,#1a1a0a,#2a2a1a)",bannerIcon:"🐻",bannerTitle:"TUNNELBEAR",bannerSub:"LIFETIME VPN",description:"🐻 TunnelBear VPN – Accès Premium. Le VPN le plus convivial. Protection en un clic, chiffrement complet, zéro log.",features:["🛜 Compte VPN Premium — sans limites","🌍 Réseau mondial — changement de région simple","🧸 Interface conviviale — idéal pour tous","🚀 Connexion rapide & fiable","📱 Multi-plateforme"],variants:[
+    {name:"TunnelBear VPN Premium",price:3.00,stock:50,desc:"TunnelBear VPN Premium. Interface simple, chiffrement complet, parfait pour débutants."}
+  ]},
+  {id:39,name:"IPVanish VPN 1 An",category:"vpn",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"🛡️",bannerTitle:"IPVANISH",bannerSub:"LIFETIME VPN",description:"🛡️ IPVanish VPN – 1 An. Cache votre IP, chiffre vos données, vous protège du tracking.",features:["🕐 1 An de protection","🚫 Zéro log","🌍 Accès mondial rapide","🔑 Login: E-Mail + Mot de passe","🔁 Garantie 24h"],variants:[
+    {name:"IPVanish VPN 1 An",price:3.00,stock:100,desc:"IPVanish VPN pendant 1 an. Haute anonymité, vitesse optimale, zéro logs."}
+  ]},
+  {id:40,name:"PureVPN Lifetime",category:"vpn",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🛡️",bannerTitle:"PUREVPN",bannerSub:"LIFETIME VPN",description:"🛡️ PureVPN – Accès Premium. 6500+ serveurs, bande passante illimitée, accès contenu mondial.",features:["🛜 Compte VPN Premium — prêt à l'emploi","🌎 6500+ serveurs dans 78+ pays","🚀 Vitesses rapides — streaming & gaming","🔓 Contournez les géo-blocages","📱 Windows, macOS, Android, iOS"],variants:[
+    {name:"PureVPN Premium",price:3.00,stock:80,desc:"PureVPN Premium. 6500+ serveurs, déblocage streaming mondial, bande passante illimitée."}
+  ]},
+  {id:41,name:"Mullvad VPN Lifetime",category:"vpn",banner:"linear-gradient(135deg,#0a1a1a,#1a2a2a)",bannerIcon:"🦔",bannerTitle:"MULLVAD",bannerSub:"LIFETIME VPN",description:"🦔 Mullvad VPN – Confidentialité Ultime, Zéro Tracking. Conçu pour les utilisateurs qui exigent une véritable anonymat en ligne.",features:["🆔 Aucun compte requis — ID aléatoire","🚫 Politique zéro log vérifiée par audits","🧩 Applications open-source","🔐 WireGuard & OpenVPN","📥 Compatible P2P & Torrent"],variants:[
+    {name:"Mullvad VPN Lifetime",price:6.00,stock:30,desc:"Mullvad VPN à vie. Anonymat absolu, zéro log vérifié, open-source. Le VPN des pros de la vie privée."}
+  ]},
+  {id:42,name:"Comptes Twitch Followers FA",category:"social",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🟣",bannerTitle:"TWITCH FOLLOWERS",bannerSub:"ACCOUNTS",description:"🟣 Comptes Twitch Followers FA – Accès Complet. Des comptes Twitch premium avec followers. Les followers sont ajoutés via logiciel personnel — désabonnements très peu probables.",features:["📩 E-Mail non confirmé — liez le vôtre","🔑 Format: LOGIN:PASSWORD:TOKEN","🧮 Vrais followers boostés, stables","⚡ Livraison instantanée","🕒 Garantie 24h"],variants:[
+    {name:"FA Twitch Fresh",price:0.10,stock:143,desc:"Compte Twitch tout frais sans followers. Parfait pour démarrer."},
+    {name:"FA Twitch 100+ Followers",price:3.20,stock:0,desc:"Compte Twitch avec plus de 100 followers boostés."},
+    {name:"FA Twitch 500+ Followers",price:3.50,stock:0,desc:"Compte Twitch avec plus de 500 followers boostés."},
+    {name:"FA Twitch 2000+ Followers",price:4.75,stock:0,desc:"Compte Twitch avec plus de 2000 followers. Belle présence."},
+    {name:"FA Twitch 5000+ Followers",price:7.75,stock:0,desc:"Compte Twitch avec plus de 5000 followers. Chaîne établie."},
+    {name:"FA Twitch 10,000+ Followers",price:12.50,stock:0,desc:"Compte Twitch avec plus de 10000 followers. Forte visibilité."},
+    {name:"FA Twitch 20,000+ Followers",price:22.75,stock:10,desc:"Compte Twitch avec plus de 20000 followers. Influenceur level."},
+    {name:"FA Twitch 40,000+ Followers",price:33.00,stock:6,desc:"Compte Twitch avec plus de 40000 followers. Ultra-établi."}
+  ]},
+  {id:43,name:"Comptes Instagram",category:"social",banner:"linear-gradient(135deg,#1a0a2e,#3a1a4e)",bannerIcon:"📸",bannerTitle:"INSTAGRAM",bannerSub:"ACCOUNTS",description:"📸 Comptes Instagram Accès Complet — Followers Organiques. Comptes Instagram prêts à l'emploi pour crédibilité instantanée, croissance rapide et haute visibilité.",features:["👥 Vrais Followers / Organiques","🔐 Accès Complet — E-Mail & Mot de passe","♻️ Tous les identifiants modifiables","🧼 Compte Propre & Sécurisé","⚡ Livraison Rapide"],variants:[
+    {name:"Instagram 1K+ Followers",price:6.40,stock:50,desc:"Compte Instagram avec plus de 1000 followers. Idéal pour démarrer votre présence ou business."},
+    {name:"Instagram 5K+ Followers",price:11.50,stock:30,desc:"Compte Instagram avec plus de 5000 followers organiques. Parfait pour influenceurs et business."}
+  ]}
+];
+
+const CATEGORIES = [
+  {key:"all",label:"Tous"},
+  {key:"discord",label:"Comptes Discord"},
+  {key:"games",label:"Jeux"},
+  {key:"streaming",label:"Streaming"},
+  {key:"vpn",label:"VPN"},
+  {key:"social",label:"Réseaux Sociaux"},
+  {key:"tools",label:"Outils"}
+];
+
+const FAQS = [
+  {q:"Que se passe-t-il après l'achat ?",a:"Une facture est générée automatiquement après votre paiement. Ouvrez ensuite un ticket sur notre Discord pour recevoir votre produit en quelques minutes."},
+  {q:"Quels moyens de paiement sont acceptés ?",a:"Nous acceptons les paiements PayPal directement sur le site et les virements bancaires via ticket Discord."},
+  {q:"Combien de temps prend la livraison ?",a:"Après confirmation de votre paiement, votre produit est remis via Discord en quelques minutes en moyenne."},
+  {q:"Besoin d'aide ou d'un remplacement ?",a:"Rejoignez notre serveur Discord et ouvrez un ticket. Notre équipe répond en moyenne en moins de 10 minutes, 24h/24."}
+];
+
+/* ════════════════════════════════════════════════
+   ANIMATED BACKGROUND CANVAS
+   ════════════════════════════════════════════════ */
+(function initBg(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, bubbles=[], particles=[];
+
+  function resize(){
+    w = canvas.width = window.innerWidth * window.devicePixelRatio;
+    h = canvas.height = window.innerHeight * window.devicePixelRatio;
+    canvas.style.width = window.innerWidth+'px';
+    canvas.style.height = window.innerHeight+'px';
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+
+  function rand(a,b){return a+Math.random()*(b-a)}
+
+  function init(){
+    resize();
+    bubbles = [];
+    for(let i=0;i<15;i++){
+      bubbles.push({
+        x: rand(0, window.innerWidth),
+        y: rand(0, window.innerHeight),
+        r: rand(30,150),
+        vx: (Math.random()<.5?-1:1)*rand(.3,.8),
+        vy: (Math.random()<.5?-1:1)*rand(.3,.8),
+        color: Math.random()<.55 ? '79,142,247' : '124,58,237',
+        opacity: rand(.15,.25)
+      });
+    }
+    particles = [];
+    for(let i=0;i<8;i++){
+      particles.push({
+        x: rand(0, window.innerWidth),
+        y: window.innerHeight + rand(0, 200),
+        r: rand(5,10),
+        vy: rand(.4, 1.0),
+        opacity: 0
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+    bubbles.forEach(b=>{
+      b.x += b.vx; b.y += b.vy;
+      if(b.x - b.r < 0 || b.x + b.r > window.innerWidth) b.vx *= -1;
+      if(b.y - b.r < 0 || b.y + b.r > window.innerHeight) b.vy *= -1;
+      const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      grad.addColorStop(0, `rgba(${b.color},${b.opacity})`);
+      grad.addColorStop(1, `rgba(${b.color},0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+      ctx.fill();
+    });
+    particles.forEach(p=>{
+      p.y -= p.vy;
+      const lifeY = p.y / window.innerHeight;
+      p.opacity = lifeY > .8 ? (1 - lifeY)*5 : (lifeY < .2 ? lifeY*5 : 1);
+      p.opacity = Math.max(0, Math.min(.6, p.opacity));
+      if(p.y < -50){
+        p.y = window.innerHeight + rand(0,100);
+        p.x = rand(0, window.innerWidth);
+      }
+      ctx.fillStyle = `rgba(79,142,247,${p.opacity})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  init();
+  draw();
+  window.addEventListener('resize', init);
+})();
+
+/* ════════════════════════════════════════════════
+   STATE & UTILS
+   ════════════════════════════════════════════════ */
+let cart = [];
+let activeCategory = 'all';
+let activeSearch = '';
+
+function fmt(n){return '€' + n.toFixed(2)}
+function stockBadge(stock){
+  return `<span class="stock-badge">En stock</span>`;
+}
+function minPrice(p){return Math.min(...p.variants.map(v=>v.price))}
+function totalStock(p){return p.variants.reduce((s,v)=>s+v.stock,0)}
+
+/* Real brand logos.
+   Two URL builders:
+     SI(slug,color)  → Simple Icons CDN (SVG, monochrome in chosen color)
+     FAV(domain)     → Google favicon CDN (PNG, real brand colors)
+   Fallback to the emoji bannerIcon when no entry exists or the logo fails to load. */
+const SI  = (slug, color) => `https://cdn.simpleicons.org/${slug}/${color}`;
+const FAV = (domain) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+const BRAND_LOGOS = {
+  "DISCORD":         SI("discord","5865F2"),
+  "ROCKSTAR":        SI("rockstargames","FCAF17"),
+  "CS2 PRIME":       SI("counterstrike","F2A900"),
+  "APEX LEGENDS":    "/logos/apex-legends.png",
+  "VALORANT":        SI("valorant","FF4655"),
+  "RAINBOW SIX":     "/logos/rainbow-six.png",
+  "FORTNITE":        SI("epicgames","FFFFFF"),
+  "FORTNITE V-BUCKS":"/logos/vbucks.png",
+  "CLASH ROYALE":    "/logos/clash-royale.png",
+  "ROBLOX":          SI("roblox","FFFFFF"),
+  "GTA 5":           SI("rockstargames","FCAF17"),
+  "RED DEAD 2":      "/logos/red-dead-2.png",
+  "EA FC 26":        SI("ea","FFFFFF"),
+  "FIVEM READY":     FAV("fivem.net"),
+  "RUST":            FAV("rust.facepunch.com"),
+  "MINECRAFT":       "/logos/minecraft.png",
+  "GEMINI PRO":      FAV("gemini.google.com"),
+  "CAPCUT PRO":      FAV("capcut.com"),
+  "WONDERSHARE":     SI("wondersharefilmora","FFFFFF"),
+  "DISNEY PLUS":     FAV("disneyplus.com"),
+  "PARAMOUNT+":      SI("paramountplus","0064FF"),
+  "NETFLIX":         SI("netflix","E50914"),
+  "YOUTUBE":         SI("youtube","FF0000"),
+  "HBO MAX":         FAV("max.com"),
+  "SPOTIFY":         SI("spotify","1DB954"),
+  "PRIME VIDEO":     FAV("primevideo.com"),
+  "CRUNCHYROLL":     SI("crunchyroll","F47521"),
+  "DAZN":            SI("dazn","F8F8F8"),
+  "AMC+":            "/logos/amc-plus.png",
+  "MOVISTAR+":       SI("movistar","019DF4"),
+  "UFC FIGHT PASS":  SI("ufc","D20A0A"),
+  "ONEPLAY":         "/logos/oneplay.png",
+  "NBA":             FAV("nba.com"),
+  "DUOLINGO":        SI("duolingo","58CC02"),
+  "NORDVPN":         SI("nordvpn","4687FF"),
+  "CYBERGHOST":      FAV("cyberghostvpn.com"),
+  "TUNNELBEAR":      "/logos/tunnelbear.png",
+  "IPVANISH":        FAV("ipvanish.com"),
+  "PUREVPN":         FAV("purevpn.com"),
+  "MULLVAD":         SI("mullvad","FFD524"),
+  "TWITCH FOLLOWERS":SI("twitch","9146FF"),
+  "INSTAGRAM":       SI("instagram","E4405F")
+};
+
+window.brandLogoFallback = function(img, emoji, sizeClass){
+  const div = document.createElement('div');
+  div.className = sizeClass;
+  div.dataset.emoji = '1';
+  div.textContent = emoji;
+  img.replaceWith(div);
+};
+
+const WIDE_LOGOS = new Set(["RED DEAD 2"]);
+function brandIcon(p, sizeClass){
+  const key = (p.logoKey || p.bannerTitle || '').toUpperCase();
+  const url = BRAND_LOGOS[key];
+  const emoji = (p.bannerIcon || '').replace(/'/g, "\\'");
+  const wide = WIDE_LOGOS.has(key) ? ' wide' : '';
+  if(url){
+    return `<img class="brand-logo ${sizeClass}${wide}" src="${url}" alt="${p.bannerTitle}" loading="lazy" onerror="brandLogoFallback(this,'${emoji}','${sizeClass}')" />`;
+  }
+  return `<div class="${sizeClass}" data-emoji>${p.bannerIcon}</div>`;
+}
+
+/* ════════════════════════════════════════════════
+   RENDER CATEGORY PILLS
+   ════════════════════════════════════════════════ */
+const pillsEl = document.getElementById('categoryPills');
+pillsEl.innerHTML = CATEGORIES.map(c=>
+  `<button class="pill${c.key===activeCategory?' active':''}" data-cat="${c.key}">${c.label}</button>`
+).join('');
+pillsEl.addEventListener('click', e=>{
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  activeCategory = btn.dataset.cat;
+  document.querySelectorAll('.pill').forEach(p=>p.classList.toggle('active', p.dataset.cat===activeCategory));
+  renderProducts();
+});
+
+/* ════════════════════════════════════════════════
+   RENDER PRODUCTS
+   ════════════════════════════════════════════════ */
+const gridEl = document.getElementById('productsGrid');
+const noResultsEl = document.getElementById('noResults');
+function renderProducts(){
+  const q = activeSearch.toLowerCase().trim();
+  const filtered = PRODUCTS.filter(p=>{
+    const matchCat = activeCategory==='all' || p.category===activeCategory;
+    const matchQ = !q || p.name.toLowerCase().includes(q) || p.bannerTitle.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  if(filtered.length===0){
+    gridEl.innerHTML = '';
+    noResultsEl.style.display = 'block';
+    return;
+  }
+  noResultsEl.style.display = 'none';
+  gridEl.innerHTML = filtered.map(p=>{
+    const stock = totalStock(p);
+    return `
+    <article class="product-card" data-id="${p.id}">
+      <div class="product-banner" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">
+        ${brandIcon(p, 'banner-icon')}
+        <div class="banner-title">${p.bannerTitle}</div>
+        <div class="banner-sub">${p.bannerSub}</div>
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">
+          <div class="product-price"><small>dès</small>${fmt(minPrice(p))}</div>
+          ${stockBadge(stock)}
+        </div>
+        <button class="product-cta">Voir le produit →</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+renderProducts();
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  activeSearch = e.target.value;
+  renderProducts();
+});
+
+gridEl.addEventListener('click', e=>{
+  const card = e.target.closest('.product-card');
+  if(!card) return;
+  openModal(parseInt(card.dataset.id));
+});
+
+/* ════════════════════════════════════════════════
+   MODAL PRODUIT — 2 vues : grid puis détail
+   ════════════════════════════════════════════════ */
+const modalOverlay = document.getElementById('modalOverlay');
+const modalContent = document.getElementById('modalContent');
+const modalEl = document.getElementById('modal');
+let currentProduct = null;
+let currentVariantIdx = 0;
+let currentQty = 1;
+let modalView = 'grid';
+
+function openModal(id){
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  currentProduct = p;
+  modalView = 'grid';
+  currentVariantIdx = 0;
+  currentQty = 1;
+  renderModal();
+  modalOverlay.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+function showVariantDetail(idx){
+  modalView = 'detail';
+  currentVariantIdx = idx;
+  currentQty = 1;
+  renderModal();
+  if(modalEl) modalEl.scrollTop = 0;
+}
+function backToGrid(){
+  modalView = 'grid';
+  renderModal();
+  if(modalEl) modalEl.scrollTop = 0;
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e=>{ if(e.target===modalOverlay) closeModal(); });
+
+function renderModal(){
+  if(modalView === 'grid') renderGridView();
+  else renderDetailView();
+}
+
+function renderGridView(){
+  const p = currentProduct;
+  modalContent.innerHTML = `
+    <div class="modal-grid">
+      <div class="modal-grid-header">
+        ${brandIcon(p, 'grid-icon')}
+        <h2>${p.name}</h2>
+      </div>
+      <div class="variants-grid">
+        ${p.variants.map((v,i)=>`
+          <div class="v-card" data-idx="${i}">
+            <div class="v-card-banner" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">
+              ${brandIcon(p, 'v-card-icon')}
+              <div class="v-card-title">${p.bannerTitle}</div>
+              <div class="v-card-sub">${p.bannerSub}</div>
+            </div>
+            <div class="v-card-info">
+              <div class="v-card-name">${v.name}</div>
+              <div class="v-card-meta">
+                <div class="v-card-price">${fmt(v.price)}</div>
+                <div class="v-card-stock">En stock</div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  modalContent.querySelectorAll('.v-card').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      showVariantDetail(parseInt(el.dataset.idx));
+    });
+  });
+}
+
+function renderDetailView(){
+  const p = currentProduct;
+  const v = p.variants[currentVariantIdx];
+  const total = v.price * currentQty;
+  const out = v.stock <= 0;
+
+  modalContent.innerHTML = `
+    <div class="modal-detail">
+      <button class="modal-back" id="modalBack">← Retour aux comptes</button>
+      <div class="modal-detail-grid">
+        <div class="detail-left">
+          <div class="detail-instant">⚡ Livraison après vérification</div>
+          <div class="detail-banner" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">
+            ${brandIcon(p, 'banner-icon')}
+            <div class="banner-title">${p.bannerTitle}</div>
+            <div class="banner-sub">${p.bannerSub}</div>
+          </div>
+          <div class="detail-section">
+            <h4>📝 Description</h4>
+            <p>${p.description}</p>
+          </div>
+          <div class="detail-section">
+            <h4>📦 Tous les variants disponibles</h4>
+            <ul class="types-list">
+              ${p.variants.map((vv,i)=>`
+                <li class="type-row${i===currentVariantIdx?' active':''}" data-idx="${i}">
+                  <span class="t-name">${vv.name}</span>
+                  <span class="t-price">${fmt(vv.price)}</span>
+                  <span class="t-stock" style="color:#22c55e">En stock</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+          <div class="detail-section">
+            <h4>✨ Ce qui est inclus</h4>
+            <ul class="features-list">
+              ${p.features.map(f=>`<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="purchase-panel">
+            <h3>Achat</h3>
+            <label class="purchase-row-label" style="display:block;margin-bottom:8px">Type de compte</label>
+            <div class="variant-select" id="variantSelect">
+              <button class="variant-select-trigger" id="variantSelectTrigger">
+                <div class="purchase-variant-info">
+                  <div class="purchase-variant-name">${v.name}</div>
+                  <div class="purchase-variant-price">${fmt(v.price)}</div>
+                </div>
+                <span class="select-caret">▾</span>
+              </button>
+              <div class="variant-select-menu" id="variantSelectMenu">
+                ${p.variants.map((vv,i)=>`
+                  <div class="variant-select-option${i===currentVariantIdx?' active':''}" data-idx="${i}">
+                    <div class="vso-info">
+                      <div class="vso-name">${vv.name}</div>
+                      <div class="vso-stock">En stock</div>
+                    </div>
+                    <div class="vso-price">${fmt(vv.price)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="purchase-row">
+              <span class="purchase-row-label">Quantité</span>
+              <div class="qty-control">
+                <button class="qty-btn" id="qtyMinus">−</button>
+                <span class="qty-val">${currentQty}</span>
+                <button class="qty-btn" id="qtyPlus">+</button>
+              </div>
+            </div>
+            <div class="purchase-row">
+              <span class="purchase-row-label">Total</span>
+              <span class="purchase-row-total">${fmt(total)}</span>
+            </div>
+            <div class="purchase-actions">
+              <button class="btn btn-outline btn-block" id="addCartBtn">🛒 Ajouter au panier</button>
+              <button class="btn btn-accent btn-block" id="buyNowBtn">Acheter »</button>
+            </div>
+            ${v.desc ? `<div style="margin-top:14px;font-size:12px;color:var(--text-dim);background:rgba(255,255,255,.03);padding:10px 12px;border-radius:8px;line-height:1.6;border-left:3px solid var(--accent)">${v.desc}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('modalBack').addEventListener('click', backToGrid);
+  document.getElementById('qtyMinus').addEventListener('click', ()=>{ if(currentQty>1){ currentQty--; renderDetailView(); } });
+  document.getElementById('qtyPlus').addEventListener('click', ()=>{ currentQty++; renderDetailView(); });
+
+  // Variant selector dropdown
+  const trigger = document.getElementById('variantSelectTrigger');
+  const menu = document.getElementById('variantSelectMenu');
+  const wrap = document.getElementById('variantSelect');
+  trigger.addEventListener('click', e=>{
+    e.stopPropagation();
+    wrap.classList.toggle('open');
+  });
+  document.addEventListener('click', ()=> wrap && wrap.classList.remove('open'), { once:true });
+  menu.querySelectorAll('.variant-select-option').forEach(opt=>{
+    opt.addEventListener('click', e=>{
+      e.stopPropagation();
+      const idx = parseInt(opt.dataset.idx);
+      currentVariantIdx = idx;
+      currentQty = 1;
+      renderDetailView();
+    });
+  });
+
+  // Variant rows in the description list also switch variant
+  modalContent.querySelectorAll('.type-row').forEach(row=>{
+    row.addEventListener('click', ()=>{
+      currentVariantIdx = parseInt(row.dataset.idx);
+      currentQty = 1;
+      renderDetailView();
+    });
+  });
+
+  document.getElementById('addCartBtn').addEventListener('click', e=>{
+    addToCart(p, currentVariantIdx, currentQty, e);
+  });
+  document.getElementById('buyNowBtn').addEventListener('click', e=>{
+    addToCart(p, currentVariantIdx, currentQty, e);
+    setTimeout(()=>{ closeModal(); openCart(); }, 600);
+  });
+}
+
+/* ════════════════════════════════════════════════
+   CART
+   ════════════════════════════════════════════════ */
+const cartSidebar = document.getElementById('cartSidebar');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartItemsEl = document.getElementById('cartItems');
+const cartFooterEl = document.getElementById('cartFooter');
+const cartBadge = document.getElementById('cartBadge');
+const cartTotalVal = document.getElementById('cartTotalVal');
+
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+
+function openCart(){
+  cartSidebar.classList.add('open');
+  cartOverlay.classList.add('open');
+}
+function closeCart(){
+  cartSidebar.classList.remove('open');
+  cartOverlay.classList.remove('open');
+}
+
+function addToCart(product, variantIdx, qty, evt){
+  const v = product.variants[variantIdx];
+  const key = product.id + '__' + variantIdx;
+  const existing = cart.find(x=>x.key===key);
+  if(existing){
+    existing.qty = existing.qty + qty;
+  } else {
+    cart.push({
+      key, productId: product.id, variantIdx,
+      name: product.name, variantName: v.name,
+      price: v.price, qty, stock: v.stock,
+      banner: product.banner, icon: product.bannerIcon
+    });
+  }
+  renderCart();
+  showToast(`✓ ${product.name} ajouté`);
+  if(evt) flyToCart(product, evt);
+  cartBadge.classList.remove('pulse');
+  void cartBadge.offsetWidth;
+  cartBadge.classList.add('pulse');
+}
+
+function renderCart(){
+  cartBadge.textContent = cart.reduce((s,x)=>s+x.qty,0);
+  if(cart.length===0){
+    cartItemsEl.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        Votre panier est vide.
+      </div>`;
+    cartFooterEl.style.display = 'none';
+    return;
+  }
+  cartFooterEl.style.display = 'block';
+  cartItemsEl.innerHTML = cart.map(item=>`
+    <div class="cart-item" data-key="${item.key}">
+      <div class="cart-thumb" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">${item.icon}</div>
+      <div class="cart-info">
+        <div class="cart-info-name">${item.name}</div>
+        <div class="cart-info-variant">${item.variantName}</div>
+        <div class="cart-info-row">
+          <div class="cart-qty">
+            <button data-act="dec">−</button>
+            <span>${item.qty}</span>
+            <button data-act="inc">+</button>
+          </div>
+          <div class="cart-info-price">${fmt(item.price * item.qty)}</div>
+        </div>
+        <button class="cart-remove" data-act="rm">Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+  const total = cart.reduce((s,x)=>s + x.price*x.qty, 0);
+  cartTotalVal.textContent = fmt(total);
+}
+renderCart();
+
+cartItemsEl.addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-act]');
+  if(!btn) return;
+  const itemEl = e.target.closest('.cart-item');
+  const key = itemEl.dataset.key;
+  const item = cart.find(x=>x.key===key);
+  if(!item) return;
+  const act = btn.dataset.act;
+  if(act==='inc') item.qty++;
+  else if(act==='dec'){ if(item.qty>1) item.qty--; else cart = cart.filter(x=>x.key!==key); }
+  else if(act==='rm') cart = cart.filter(x=>x.key!==key);
+  renderCart();
+});
+
+document.getElementById('cartClear').addEventListener('click', ()=>{
+  cart = [];
+  renderCart();
+});
+
+/* ════════════════════════════════════════════════
+   FLY-TO-CART ANIMATION
+   ════════════════════════════════════════════════ */
+function flyToCart(product, evt){
+  const cartBtn = document.getElementById('cartBtn');
+  const cartRect = cartBtn.getBoundingClientRect();
+  const startX = evt.clientX - 25;
+  const startY = evt.clientY - 25;
+  const endX = cartRect.left + cartRect.width/2 - 25;
+  const endY = cartRect.top + cartRect.height/2 - 25;
+
+  const clone = document.createElement('div');
+  clone.className = 'fly-clone';
+  clone.style.background = product.banner;
+  clone.textContent = product.bannerIcon;
+  clone.style.left = startX + 'px';
+  clone.style.top = startY + 'px';
+  document.body.appendChild(clone);
+
+  // Bezier curve via two-step transform
+  const ctrlX = (startX + endX)/2;
+  const ctrlY = Math.min(startY, endY) - 150;
+
+  const duration = 700;
+  const start = performance.now();
+
+  function step(now){
+    const t = Math.min(1, (now - start)/duration);
+    // Quadratic bezier
+    const x = (1-t)*(1-t)*startX + 2*(1-t)*t*ctrlX + t*t*endX;
+    const y = (1-t)*(1-t)*startY + 2*(1-t)*t*ctrlY + t*t*endY;
+    const scale = 1 - 0.8*t;
+    const opacity = 1 - 0.3*t;
+    clone.style.left = x + 'px';
+    clone.style.top = y + 'px';
+    clone.style.transform = `scale(${scale})`;
+    clone.style.opacity = opacity;
+    if(t<1) requestAnimationFrame(step);
+    else clone.remove();
+  }
+  requestAnimationFrame(step);
+}
+
+/* ════════════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════════════ */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+/* ════════════════════════════════════════════════
+   PAYMENT FLOW — redirige direct sur PayPal
+   ════════════════════════════════════════════════ */
+document.getElementById('payPaypal').addEventListener('click', ()=>{
+  if(cart.length===0) return;
+  const total = cart.reduce((s,x)=>s + x.price*x.qty, 0);
+  // Redirection directe vers le PayPal pour paiement immédiat
+  window.open(`https://www.paypal.com/paypalme/AnesSkenderovic/${total.toFixed(2)}EUR`, '_blank');
+  // Affiche le popup pour rappeler d'envoyer la preuve par ticket Discord
+  closeCart();
+  document.getElementById('proofPopup').classList.add('open');
+});
+
+/* ════════════════════════════════════════════════
+   BANK + PROOF POPUPS
+   ════════════════════════════════════════════════ */
+const bankPopup = document.getElementById('bankPopup');
+const proofPopup = document.getElementById('proofPopup');
+document.getElementById('payBank').addEventListener('click', ()=> bankPopup.classList.add('open'));
+document.getElementById('bankClose').addEventListener('click', ()=> bankPopup.classList.remove('open'));
+document.getElementById('proofClose').addEventListener('click', ()=> proofPopup.classList.remove('open'));
+bankPopup.addEventListener('click', e=>{ if(e.target===bankPopup) bankPopup.classList.remove('open'); });
+proofPopup.addEventListener('click', e=>{ if(e.target===proofPopup) proofPopup.classList.remove('open'); });
+
+/* ════════════════════════════════════════════════
+   FAQ
+   ════════════════════════════════════════════════ */
+const faqList = document.getElementById('faqList');
+faqList.innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item" data-idx="${i}">
+    <button class="faq-q">
+      <span>${f.q}</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">${f.a}</div>
+  </div>
+`).join('');
+faqList.addEventListener('click', e=>{
+  const item = e.target.closest('.faq-item');
+  if(!item) return;
+  item.classList.toggle('open');
+});
+
+/* ════════════════════════════════════════════════
+   HAMBURGER
+   ════════════════════════════════════════════════ */
+document.getElementById('hamburger').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('open'));
+});
+
+/* Esc key closes modals */
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    if(modalView==='detail' && modalOverlay.classList.contains('open')){
+      backToGrid();
+      return;
+    }
+    closeModal();
+    closeCart();
+    bankPopup.classList.remove('open');
+    proofPopup.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
