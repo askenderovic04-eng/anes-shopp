@@ -62,6 +62,31 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 img{max-width:100%;display:block}
 input{font-family:inherit;color:inherit}
 
+/* Featured section */
+.featured-section{padding:60px 0 0}
+.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.featured-card{
+  border-radius:16px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  border:1px solid var(--border-strong);
+  cursor:pointer;transition:all .25s;
+}
+.featured-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 20px 50px rgba(79,142,247,.18)}
+.featured-card-banner{
+  position:relative;height:160px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.featured-badge{
+  position:absolute;top:12px;left:12px;
+  background:linear-gradient(135deg,#f59e0b,#d97706);
+  color:#000;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;letter-spacing:.04em;
+}
+.featured-card-body{padding:20px}
+.featured-card-name{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;margin-bottom:10px}
+.featured-card-price{font-size:24px;font-weight:800;color:var(--accent);margin-bottom:14px}
+.featured-card-price small{font-size:13px;font-weight:500;color:var(--text-dim);margin-right:4px}
+@media(max-width:900px){.featured-grid{grid-template-columns:1fr}}
+
 /* Scrollbar */
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:#0a0a14}
@@ -616,6 +641,17 @@ footer{background:#050508;border-top:1px solid var(--border);padding:54px 0 30px
   </div>
 </section>
 
+<!-- EN VEDETTE -->
+<section class="featured-section">
+  <div class="container">
+    <div class="section-head">
+      <h2>En Vedette</h2>
+      <p>Nos meilleures offres du moment — qualité garantie, livraison instantanée.</p>
+    </div>
+    <div class="featured-grid" id="featuredGrid"></div>
+  </div>
+</section>
+
 <!-- FEATURES -->
 <section>
   <div class="container">
@@ -813,8 +849,9 @@ const PRODUCTS = [
     {name:"Nitro 1 Mois + 2 Boosts",price:3.75,stock:0,desc:"Compte avec Nitro 1 mois + 2 boosts actifs, vérifié par téléphone."},
     {name:"Nitro 3 Mois + 2 Boosts",price:5.30,stock:30,desc:"Compte avec Nitro 3 mois + 2 boosts actifs. Meilleure valeur."}
   ]},
-  {id:2,name:"Rockstar Tool",category:"games",banner:"linear-gradient(135deg,#1a0a2e,#0d1b4b)",bannerIcon:"⭐",bannerTitle:"ROCKSTAR",bannerSub:"TOOL",description:"🛡️ Rockstar Tool – Générateur de Comptes en Masse. Automatisez la création de comptes Rockstar Games rapidement et efficacement. Idéal pour les revendeurs et les setups automatisés.",features:["📜 Accès au code source complet","⚡ Jusqu'à 100 comptes créés en ~40 minutes","🛡️ Compatible VPN & proxies rotatifs (Mysterium)","🔁 Script personnalisable et extensible","⏳ Livraison instantanée après paiement"],variants:[
-    {name:"Rockstar Tool",price:21.00,stock:1,desc:"Script complet de génération de comptes Rockstar en masse. Code source inclus."}
+  {id:50,name:"Discord Nitro Boost",category:"discord",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🔮",bannerTitle:"DISCORD",bannerSub:"NITRO BOOST",logoKey:"DISCORD NITRO",description:"🔮 Discord Nitro Boost – Boostez votre serveur instantanément. Offrez un boost Discord Premium à votre serveur ou à celui d'un ami. Livraison instantanée après paiement.",features:["🔮 Boost Discord Premium","⚡ Livraison instantanée","💬 Support inclus","🌟 Achat unique — sans abonnement"],variants:[
+    {name:"Nitro Boost 1 Mois",price:5.50,stock:500,desc:"1 boost Discord pendant 1 mois. Livraison instantanée après paiement."},
+    {name:"Nitro Boost 1 An",price:15.00,stock:500,desc:"1 boost Discord pendant 1 an. La meilleure valeur pour un boost longue durée."}
   ]},
   {id:3,name:"Comptes CS2 Prime",category:"games",banner:"linear-gradient(135deg,#0a1628,#1a3a5c)",bannerIcon:"🎮",bannerTitle:"CS2 PRIME",bannerSub:"ACCOUNTS",description:"🎮 Comptes CS2 Prime – Accès Complet. Des comptes CS2 Prime premium prêts à jouer immédiatement. Accès complet avec e-mail modifiable. Parfaits pour le ranked, les revendeurs ou comme smurf propre.",features:["🔐 Accès complet — identifiants entièrement modifiables","🛡️ Sécurisé & permanent","📦 Format: Pseudo Steam : MDP : E-Mail : MDP E-Mail","⚡ Accès instantané après paiement","🟢 Haut facteur de confiance"],variants:[
     {name:"CS2 Prime (0-300h) Médailles 0-2",price:13.85,stock:40,desc:"Compte CS2 Prime avec 0 à 300 heures et 0 à 2 médailles. Parfait pour commencer."},
@@ -882,8 +919,8 @@ const PRODUCTS = [
   {id:13,name:"EA FC 26",category:"games",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"⚽",bannerTitle:"EA FC 26",bannerSub:"ACCOUNTS",description:"⚽ Compte EA FC 26 – Accès Complet. Des comptes EA FC 26 premium vérifiés. Propres, sécurisés et prêts à jouer.",features:["🔐 Accès complet — e-mail & mot de passe modifiables","🧼 Compte propre sans bans","✅ Identifiants instantanés","✨ Certains comptes: joueurs FUT rares","🕒 Garantie 24h"],variants:[
     {name:"EA FC 26 Full Access",price:19.75,stock:10,desc:"Compte EA FC 26 accès complet sur PC (Origin / EA App)."}
   ]},
-  {id:14,name:"FiveM Ready [Fresh]",category:"games",banner:"linear-gradient(135deg,#0a1428,#0d2040)",bannerIcon:"🛡️",bannerTitle:"FIVEM READY",bannerSub:"ROCKSTAR ACCOUNTS",description:"🛡️ Comptes FiveM Ready [Fresh] – Accès Complet. Des comptes FiveM Ready frais. Idéaux pour unbans et spoofers, compatibles serveurs FiveM.",features:["🧾 Format E-Mail : Mot de passe","🔐 Accès complet — tout modifiable","🧠 Spoofer & Unban Ready","⚡ Livraison instantanée","📨 Accès Webmail inclus","🔁 Remplacement gratuit sous garantie"],variants:[
-    {name:"FiveM Ready Fresh",price:1.40,stock:999,desc:"Compte FiveM Ready tout frais. Parfait pour contourner les bans ou repartir de zéro."}
+  {id:14,name:"FiveM Ready [Fresh]",category:"games",banner:"linear-gradient(135deg,#0a1428,#0d2040)",bannerIcon:"🛡️",bannerTitle:"FIVEM READY",bannerSub:"ROCKSTAR ACCOUNTS",description:"🛡️ Comptes FiveM Ready [Fresh] – Accès Complet. Des comptes FiveM Ready frais. Idéaux pour unbans et spoofers, compatibles serveurs FiveM.",features:["🧾 Format E-Mail : Mot de passe","🔐 Accès complet — tout modifiable","🧠 Spoofer & Unban Ready","⚡ Livraison instantanée","📨 Accès Webmail inclus","🔁 Remplacement gratuit sous garantie"],minQty:3,variants:[
+    {name:"FiveM Ready Fresh",price:0.50,stock:999,desc:"Compte FiveM Ready tout frais. Parfait pour contourner les bans ou repartir de zéro. Minimum 3 comptes."}
   ]},
   {id:15,name:"Compte Rust",category:"games",banner:"linear-gradient(135deg,#1a0a00,#2a1500)",bannerIcon:"🧱",bannerTitle:"RUST",bannerSub:"ACCOUNTS",description:"🧱 Compte Rust – Accès Complet (0 Owner | 0 Hours). Des comptes Rust avec e-mail original et aucun propriétaire précédent.",features:["🔐 Accès complet — e-mail original inclus","🆕 0 propriétaire précédent","⏱️ 0 heures jouées","🧼 Aucun ban signalé","🕒 Garantie 24h"],variants:[
     {name:"Rust Account (0h | 0 Owner)",price:8.50,stock:50,desc:"Compte Rust tout neuf, jamais joué, aucun propriétaire précédent."}
@@ -891,7 +928,7 @@ const PRODUCTS = [
   {id:16,name:"Minecraft Full Access",category:"games",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"⛏️",bannerTitle:"MINECRAFT",bannerSub:"ACCOUNTS",description:"⛏️ Comptes Minecraft – Accès Complet. Des comptes Minecraft avec contrôle total, statut propre garanti et livraison instantanée.",features:["✅ Jamais utilisé — tout neuf","🔐 Accès complet — e-mail + mot de passe + skin modifiables","🚫 Non banni — propre sur tous les serveurs","⚡ Livraison instantanée"],variants:[
     {name:"Minecraft Full Access",price:5.95,stock:100,desc:"Compte Minecraft tout neuf accès complet. Jamais connecté, propre sur tous les serveurs."}
   ]},
-  {id:17,name:"14x Server Boosts Discord",category:"discord",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"⭐",bannerTitle:"DISCORD",bannerSub:"SERVER BOOSTS",description:"🛡️ 14x Server Boosts Discord – Niveau 3 Instantané. Boostez votre serveur Discord au niveau 3 en quelques secondes.",features:["🚀 14x Boosts (1 Mois) — upgrade Level 3 instantanée","⚡ Livraison instantanée","🖥️ Fonctionne sur n'importe quel serveur","💬 Support inclus","🌟 Achat unique"],variants:[
+  {id:17,name:"14x Server Boosts Discord",category:"discord",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🚀",bannerTitle:"DISCORD",bannerSub:"SERVER BOOSTS",logoKey:"DISCORD BOOST",description:"🛡️ 14x Server Boosts Discord – Niveau 3 Instantané. Boostez votre serveur Discord au niveau 3 en quelques secondes.",features:["🚀 14x Boosts (1 Mois) — upgrade Level 3 instantanée","⚡ Livraison instantanée","🖥️ Fonctionne sur n'importe quel serveur","💬 Support inclus","🌟 Achat unique"],variants:[
     {name:"14x Server Boosts (1 Mois)",price:6.00,stock:20,desc:"14 boosts Discord d'un mois pour passer instantanément au Niveau 3."}
   ]},
   {id:18,name:"Gemini Pro 2 Years",category:"tools",banner:"linear-gradient(135deg,#1a0a2e,#2d1b4e)",bannerIcon:"🤖",bannerTitle:"GEMINI PRO",bannerSub:"ACCOUNTS",description:"🤖 Gemini Pro Business – Accès Multi-Utilisateurs 2 Ans. Compte Gemini Pro Business prêt à l'emploi pour équipes et workflows collaboratifs.",features:["👥 Jusqu'à 14 utilisateurs","🤖 Outils IA avancés — rédaction, code & automatisation","💼 Parfait pour la collaboration","⚡ Haute performance","🔑 Accès complet (e-mail + mot de passe)"],variants:[
@@ -920,7 +957,7 @@ const PRODUCTS = [
     {name:"HBO Max Lifetime",price:4.00,stock:200,desc:"Compte HBO Max Premium à vie. Originaux HBO, films Warner Bros., séries exclusives."}
   ]},
   {id:26,name:"Spotify Lifetime",category:"streaming",banner:"linear-gradient(135deg,#0a1a0a,#1a3a1a)",bannerIcon:"🎵",bannerTitle:"SPOTIFY",bannerSub:"LIFETIME",description:"🎵 Compte Spotify Lifetime – Plan Famille & Étudiant. Musique illimitée, sans pubs, qualité premium pour toujours.",features:["🏷️ Spotify Premium (Famille & Étudiant) — à vie","🚫 Sans pubs, skips illimités, écoute hors-ligne","🔊 Streaming audio haute qualité","🌍 Fonctionne partout","⚡ Livraison instantanée"],variants:[
-    {name:"Spotify Premium Lifetime",price:4.00,stock:150,desc:"Compte Spotify Premium à vie. Sans pubs, écoute offline, qualité audio maximale."}
+    {name:"Spotify Premium Lifetime",price:5.00,stock:150,desc:"Compte Spotify Premium à vie. Sans pubs, écoute offline, qualité audio maximale."}
   ]},
   {id:27,name:"Prime Video Lifetime",category:"streaming",banner:"linear-gradient(135deg,#001a2e,#002a4e)",bannerIcon:"📺",bannerTitle:"PRIME VIDEO",bannerSub:"LIFETIME",description:"🎬 Compte Prime Video Lifetime. Accès complet, regardez n'importe quand, n'importe où. Pas de frais récurrents.",features:["🔑 Accès complet","♾️ Garantie à vie — pas de frais récurrents","📺 Streaming HD/4K","🌍 Accès mondial","📦 Livraison instantanée (login:password)"],variants:[
     {name:"Prime Video Lifetime",price:4.00,stock:300,desc:"Compte Amazon Prime Video à vie. HD/4K, accès mondial, des milliers de films et séries."}
@@ -980,17 +1017,21 @@ const PRODUCTS = [
   {id:43,name:"Comptes Instagram",category:"social",banner:"linear-gradient(135deg,#1a0a2e,#3a1a4e)",bannerIcon:"📸",bannerTitle:"INSTAGRAM",bannerSub:"ACCOUNTS",description:"📸 Comptes Instagram Accès Complet — Followers Organiques. Comptes Instagram prêts à l'emploi pour crédibilité instantanée, croissance rapide et haute visibilité.",features:["👥 Vrais Followers / Organiques","🔐 Accès Complet — E-Mail & Mot de passe","♻️ Tous les identifiants modifiables","🧼 Compte Propre & Sécurisé","⚡ Livraison Rapide"],variants:[
     {name:"Instagram 1K+ Followers",price:7.40,stock:50,desc:"Compte Instagram avec plus de 1000 followers. Idéal pour démarrer votre présence ou business."},
     {name:"Instagram 5K+ Followers",price:12.50,stock:30,desc:"Compte Instagram avec plus de 5000 followers organiques. Parfait pour influenceurs et business."}
+  ]},
+  {id:51,name:"Compte Basic-Fit Ultimate",category:"sport",banner:"linear-gradient(135deg,#0a2e0a,#1a5c1a)",bannerIcon:"💪",bannerTitle:"BASIC FIT",bannerSub:"ULTIMATE",logoKey:"BASIC FIT",description:"💪 Compte Basic-Fit Ultimate – 1 An d'Accès Premium. Profitez de l'abonnement Ultimate complet avec votre propre mail et mot de passe. Accès immédiat à toutes les salles Basic-Fit, massages, invitations amis et tous les avantages Ultimate.",features:["📧 Utilisation avec votre propre mail & mot de passe","🏋️ 1 an d'abonnement Ultimate complet","💆 Massage inclus","👥 Invitations amis incluses","🌍 Accès à toutes les salles Basic-Fit","⚡ Livraison après ticket Discord"],variants:[
+    {name:"1 An Ultimate",price:20.00,stock:10,desc:"Abonnement Basic-Fit Ultimate 1 an — accès toutes salles, massage inclus, invitations amis incluses."}
   ]}
 ];
 
 const CATEGORIES = [
-  {key:"all",label:"Tous"},
+  {key:"all",label:"Tout"},
+  {key:"sport",label:"Sport"},
   {key:"discord",label:"Comptes Discord"},
-  {key:"games",label:"Jeux"},
+  {key:"tools",label:"Outils"},
   {key:"streaming",label:"Streaming"},
+  {key:"games",label:"Jeux"},
   {key:"vpn",label:"VPN"},
-  {key:"social",label:"Réseaux Sociaux"},
-  {key:"tools",label:"Outils"}
+  {key:"social",label:"Réseaux Sociaux"}
 ];
 
 const FAQS = [
@@ -1103,6 +1144,8 @@ const SI  = (slug, color) => `https://cdn.simpleicons.org/${slug}/${color}`;
 const FAV = (domain) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 const BRAND_LOGOS = {
   "DISCORD":         SI("discord","5865F2"),
+  "DISCORD BOOST":   "/logos/discord-boost.png",
+  "DISCORD NITRO":   "/logos/discord-nitro.png",
   "ROCKSTAR":        SI("rockstargames","FCAF17"),
   "CS2 PRIME":       SI("counterstrike","F2A900"),
   "APEX LEGENDS":    "/logos/apex-legends.png",
@@ -1144,7 +1187,8 @@ const BRAND_LOGOS = {
   "PUREVPN":         FAV("purevpn.com"),
   "MULLVAD":         SI("mullvad","FFD524"),
   "TWITCH FOLLOWERS":SI("twitch","9146FF"),
-  "INSTAGRAM":       SI("instagram","E4405F")
+  "INSTAGRAM":       SI("instagram","E4405F"),
+  "BASIC FIT":       "/logos/basic-fit.png"
 };
 
 window.brandLogoFallback = function(img, emoji, sizeClass){
@@ -1187,13 +1231,14 @@ pillsEl.addEventListener('click', e=>{
    ════════════════════════════════════════════════ */
 const gridEl = document.getElementById('productsGrid');
 const noResultsEl = document.getElementById('noResults');
+const CATEGORY_ORDER = ['sport','discord','tools','streaming','games','vpn','social'];
 function renderProducts(){
   const q = activeSearch.toLowerCase().trim();
   const filtered = PRODUCTS.filter(p=>{
     const matchCat = activeCategory==='all' || p.category===activeCategory;
     const matchQ = !q || p.name.toLowerCase().includes(q) || p.bannerTitle.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
     return matchCat && matchQ;
-  });
+  }).sort((a,b)=>CATEGORY_ORDER.indexOf(a.category)-CATEGORY_ORDER.indexOf(b.category));
   if(filtered.length===0){
     gridEl.innerHTML = '';
     noResultsEl.style.display = 'block';
@@ -1201,7 +1246,6 @@ function renderProducts(){
   }
   noResultsEl.style.display = 'none';
   gridEl.innerHTML = filtered.map(p=>{
-    const stock = totalStock(p);
     return `
     <article class="product-card" data-id="${p.id}">
       <div class="product-banner" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">
@@ -1213,7 +1257,6 @@ function renderProducts(){
         <div class="product-name">${p.name}</div>
         <div class="product-meta">
           <div class="product-price"><small>dès</small>${fmt(minPrice(p))}</div>
-          ${stockBadge(stock)}
         </div>
         <button class="product-cta">Voir le produit →</button>
       </div>
@@ -1221,6 +1264,37 @@ function renderProducts(){
   }).join('');
 }
 renderProducts();
+
+/* ════════════════════════════════════════════════
+   FEATURED SECTION
+   ════════════════════════════════════════════════ */
+const FEATURED_IDS = [51, 50, 26]; // Basic-Fit, Nitro Boost, Spotify
+const featuredGridEl = document.getElementById('featuredGrid');
+if(featuredGridEl){
+  featuredGridEl.innerHTML = FEATURED_IDS.map(id=>{
+    const p = PRODUCTS.find(x=>x.id===id);
+    if(!p) return '';
+    return `
+    <div class="featured-card" data-id="${p.id}">
+      <div class="featured-card-banner" style="background:linear-gradient(135deg,#0d1424,#1a1f3a)">
+        ${brandIcon(p, 'banner-icon')}
+        <div class="banner-title">${p.bannerTitle}</div>
+        <div class="banner-sub">${p.bannerSub}</div>
+        <div class="featured-badge">En Vedette</div>
+      </div>
+      <div class="featured-card-body">
+        <div class="featured-card-name">${p.name}</div>
+        <div class="featured-card-price"><small>dès</small>${fmt(minPrice(p))}</div>
+        <button class="btn btn-accent btn-block">Voir le produit →</button>
+      </div>
+    </div>`;
+  }).join('');
+  featuredGridEl.addEventListener('click', e=>{
+    const card = e.target.closest('.featured-card');
+    if(!card) return;
+    openModal(parseInt(card.dataset.id));
+  });
+}
 
 document.getElementById('searchInput').addEventListener('input', e=>{
   activeSearch = e.target.value;
@@ -1262,7 +1336,7 @@ function closeModal(){
 function showVariantDetail(idx){
   modalView = 'detail';
   currentVariantIdx = idx;
-  currentQty = 1;
+  currentQty = currentProduct.minQty || 1;
   renderModal();
   if(modalEl) modalEl.scrollTop = 0;
 }
@@ -1300,7 +1374,6 @@ function renderGridView(){
               <div class="v-card-name">${v.name}</div>
               <div class="v-card-meta">
                 <div class="v-card-price">${fmt(v.price)}</div>
-                <div class="v-card-stock">En stock</div>
               </div>
             </div>
           </div>
@@ -1343,7 +1416,6 @@ function renderDetailView(){
                 <li class="type-row${i===currentVariantIdx?' active':''}" data-idx="${i}">
                   <span class="t-name">${vv.name}</span>
                   <span class="t-price">${fmt(vv.price)}</span>
-                  <span class="t-stock" style="color:#22c55e">En stock</span>
                 </li>
               `).join('')}
             </ul>
@@ -1372,7 +1444,6 @@ function renderDetailView(){
                   <div class="variant-select-option${i===currentVariantIdx?' active':''}" data-idx="${i}">
                     <div class="vso-info">
                       <div class="vso-name">${vv.name}</div>
-                      <div class="vso-stock">En stock</div>
                     </div>
                     <div class="vso-price">${fmt(vv.price)}</div>
                   </div>
@@ -1380,7 +1451,7 @@ function renderDetailView(){
               </div>
             </div>
             <div class="purchase-row">
-              <span class="purchase-row-label">Quantité</span>
+              <span class="purchase-row-label">Quantité${p.minQty?` <span style="font-size:11px;color:#f59e0b;font-weight:600">(min. ${p.minQty})</span>`:''}</span>
               <div class="qty-control">
                 <button class="qty-btn" id="qtyMinus">−</button>
                 <span class="qty-val">${currentQty}</span>
@@ -1403,7 +1474,7 @@ function renderDetailView(){
   `;
 
   document.getElementById('modalBack').addEventListener('click', backToGrid);
-  document.getElementById('qtyMinus').addEventListener('click', ()=>{ if(currentQty>1){ currentQty--; renderDetailView(); } });
+  document.getElementById('qtyMinus').addEventListener('click', ()=>{ const min=currentProduct.minQty||1; if(currentQty>min){ currentQty--; renderDetailView(); } });
   document.getElementById('qtyPlus').addEventListener('click', ()=>{ currentQty++; renderDetailView(); });
 
   // Variant selector dropdown
