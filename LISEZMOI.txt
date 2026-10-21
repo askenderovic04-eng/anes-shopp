@@ -1,0 +1,4 @@
+Anes Shop - version GitHub Pages
+Deposez TOUT le contenu de ce dossier a la racine de votre depot (index.html a la racine),
+puis Settings > Pages > Deploy from branch > main / (root).
+Images et videos : dossier images/ (chemins relatifs). Les pages utilisent des adresses du type .../#/products.
